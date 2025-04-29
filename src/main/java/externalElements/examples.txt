@@ -1,0 +1,40 @@
+-- 🔥 Volver a activar restricciones
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- 🎯 Insertar nuevos ejemplos
+
+-- Usuarios normales
+INSERT INTO Usuario (nombre_pila, email, telefono, tipo_usuario, direccion, paterno, contrasenia) VALUES
+('Juan', 'juan@example.com', '555-1234', 'Estudiante', 'Calle Falsa 123', 'Pérez', 'password123'),
+('María', 'maria@example.com', '555-5678', 'Estudiante', 'Avenida Siempre Viva 742', 'López', 'pass456'),
+('Carlos', 'carlos@example.com', '555-9012', 'Estudiante', 'Boulevard Central 456', 'Hernández', 'qwerty789');
+
+-- Bibliotecarios (y administradores)
+INSERT INTO Bibliotecario (nombre_pila, email, telefono, direccion, paterno, contrasenia, tipo_usuario, nip) VALUES
+('Mario', 'mario@biblio.com', '555-1111', 'Biblioteca Central', 'Sánchez', 'marioPass', 'Bibliotecario', 1234),
+('Sofía', 'sofia@biblio.com', '555-2222', 'Sucursal Norte', 'Ramírez', 'sofiaPass', 'Bibliotecario', 5678),
+('Laura', 'laura@admin.com', '555-3333', 'Oficinas Centrales', 'Gómez', 'lauraAdmin', 'Administrador', 9101);
+
+-- Géneros
+INSERT INTO Genero (nombre, descripcion, edad_recom) VALUES
+('Fantasía', 'Mundos mágicos y épicos', 12),
+('Romance', 'Relaciones amorosas y drama', 15),
+('Ciencia Ficción', 'Tecnología futurista y universos alternos', 14);
+
+-- Editoriales
+INSERT INTO Editorial (nombre, direccion) VALUES
+('Penguin Random House', 'Avenida Editorial 123'),
+('Editorial Planeta', 'Boulevard Editorial 456'),
+('Alfaguara', 'Calle Editorial 789');
+
+-- Autores
+INSERT INTO Autor (nombre_pila, apellidos, nacionalidad) VALUES
+('Gabriel', 'García Márquez', 'Colombiana'),
+('Jane', 'Austen', 'Británica'),
+('Haruki', 'Murakami', 'Japonesa');
+
+-- Material Bibliográfico (ID's 1 a 3 en cada caso)
+INSERT INTO Mat_Bliografico (titulo, id_autor, id_editorial, ano_publicacion, id_genero, ubicacion, copias_disponibles) VALUES
+('Cien años de soledad', 1, 1, 1967, 1, 'Estante A1', 5),
+('Orgullo y Prejuicio', 2, 2, 1813, 2, 'Estante B2', 3),
+('Kafka en la orilla', 3, 3, 2002, 3, 'Estante C3', 4);

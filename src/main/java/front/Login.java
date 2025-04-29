@@ -1,6 +1,10 @@
 package front;
 
 import back.Main;
+import back.DbRequest;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
@@ -12,6 +16,8 @@ import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
     
    private final Main mainWindow;
+   
+   DbRequest dbConsul = new DbRequest();
 
     public Login(Main parent){
         this.mainWindow = parent;
@@ -176,12 +182,17 @@ public class Login extends javax.swing.JFrame {
             String name = nameFiled.getText();
             String pass = passField.getText();
             
-            // if(loginUser(name, pass)){
-                mainWindow.showMain(true);  // <- Aquí muestras el MainPage REAL
-                this.setVisible(false);
-            //} else {
-            //    JOptionPane.showMessageDialog(this, "Tus credenciales son incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
-            //}
+             try {
+                 if(1 == dbConsul.loginUser(name, pass)){
+                     mainWindow.showMain(true);
+                     this.setVisible(false);
+                 } else {
+                     JOptionPane.showMessageDialog(this, "Tus credenciales son incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
+                 }} catch (SQLException ex) {
+                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                 System.out.println("No encontrado");
+                    JOptionPane.showMessageDialog(this, "Tus credenciales son incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
+             }
         }
     }//GEN-LAST:event_loginActionPerformed
 

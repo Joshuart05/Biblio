@@ -1,0 +1,26 @@
+-- 🔥 Apagar restricciones
+SET FOREIGN_KEY_CHECKS = 0;
+
+SET SQL_SAFE_UPDATES = 0;
+
+
+-- 🔥 Vaciar tablas
+DELETE FROM Mat_Bliografico;
+DELETE FROM Autor;
+DELETE FROM Editorial;
+DELETE FROM Genero;
+DELETE FROM Usuario;
+DELETE FROM Bibliotecario;
+
+TRUNCATE TABLE Autor;
+TRUNCATE TABLE Editorial;
+TRUNCATE TABLE Genero;
+TRUNCATE TABLE Mat_Bliografico;
+
+SET SQL_SAFE_UPDATES = 1;
+
+ALTER TABLE Autor AUTO_INCREMENT = 1;
+ALTER TABLE Editorial AUTO_INCREMENT = 1;
+ALTER TABLE Genero AUTO_INCREMENT = 1;
+ALTER TABLE Mat_Bliografico AUTO_INCREMENT = 1;
+

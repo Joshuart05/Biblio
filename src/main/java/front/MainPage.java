@@ -31,7 +31,7 @@ public class MainPage extends javax.swing.JFrame {
         deleteButton = new javax.swing.JButton();
         mainPanel = new javax.swing.JPanel();
         elementsPanel = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Consulta");
@@ -96,12 +96,18 @@ public class MainPage extends javax.swing.JFrame {
 
         mainPanel.setLayout(new java.awt.CardLayout());
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Animales Extranios (Por Vincent Gh.) | Luz Inc (08-2015, Fantasia) | 6 Disponibles", " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        elementsPanel.setViewportView(jList1);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        elementsPanel.setViewportView(jTable1);
 
         mainPanel.add(elementsPanel, "card2");
 
@@ -169,7 +175,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JButton deleteButton;
     private javax.swing.JScrollPane elementsPanel;
     private javax.swing.JPanel header;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchField;
