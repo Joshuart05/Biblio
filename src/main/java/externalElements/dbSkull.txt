@@ -1,0 +1,128 @@
+DROP DATABASE IF EXISTS bibliotecadb;
+CREATE DATABASE bibliotecadb;
+USE bibliotecadb;
+
+-- Tabla: autor
+CREATE TABLE autor (
+    id_autor INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_pila VARCHAR(255),
+    nacionalidad VARCHAR(255),
+    apellidos VARCHAR(255)
+);
+
+-- Tabla: editorial
+CREATE TABLE editorial (
+    id_editorial INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255),
+    direccion VARCHAR(255)
+);
+
+-- Tabla: genero
+CREATE TABLE genero (
+    id_genero INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255),
+    descripcion VARCHAR(255),
+    edad_recom INT
+);
+
+-- Tabla: mat_bliografico
+CREATE TABLE mat_bliografico (
+    id_matBiblio INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(255),
+    ano_publicacion INT,
+    ubicacion VARCHAR(255),
+    copias_disponibles INT,
+    id_editorial INT,
+    id_genero INT,
+    id_autor INT,
+    FOREIGN KEY (id_editorial) REFERENCES editorial(id_editorial),
+    FOREIGN KEY (id_genero) REFERENCES genero(id_genero),
+    FOREIGN KEY (id_autor) REFERENCES autor(id_autor)
+);
+
+-- Tabla: autor_genero (relación N:N entre autor y genero)
+CREATE TABLE autor_genero (
+    id_autor INT,
+    id_genero INT,
+    PRIMARY KEY (id_autor, id_genero),
+    FOREIGN KEY (id_autor) REFERENCES autor(id_autor),
+    FOREIGN KEY (id_genero) REFERENCES genero(id_genero)
+);
+
+-- Tabla: autor_matbiblio (relación N:N entre autor y material)
+CREATE TABLE autor_matbiblio (
+    id_autor INT,
+    id_matBiblio INT,
+    PRIMARY KEY (id_autor, id_matBiblio),
+    FOREIGN KEY (id_autor) REFERENCES autor(id_autor),
+    FOREIGN KEY (id_matBiblio) REFERENCES mat_bliografico(id_matBiblio)
+);
+
+-- Tabla: usuario
+CREATE TABLE usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_pila VARCHAR(255),
+    email VARCHAR(255),
+    telefono VARCHAR(255),
+    tipo_usuario VARCHAR(255),
+    direccion VARCHAR(255),
+    paterno VARCHAR(255),
+    contrasenia VARCHAR(255)
+);
+
+-- Tabla: bibliotecario (incluye también a administradores, por tipo_usuario)
+CREATE TABLE bibliotecario (
+    id_bibliotecario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_pila VARCHAR(255),
+    email VARCHAR(255),
+    telefono VARCHAR(255),
+    tipo_usuario VARCHAR(255),
+    direccion VARCHAR(255),
+    paterno VARCHAR(255),
+    contrasenia VARCHAR(255),
+    nip INT
+);
+
+-- Tabla: prestamos
+CREATE TABLE prestamos (
+    id_prestamo INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_prestamo DATE,
+    fecha_vencimiento DATE,
+    fecha_devolcuion DATE,
+    estado VARCHAR(255),
+    id_usuario INT,
+    id_libro INT,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_libro) REFERENCES mat_bliografico(id_matBiblio)
+);
+
+-- Tabla: multas
+CREATE TABLE multas (
+    id_multa INT AUTO_INCREMENT PRIMARY KEY,
+    monto DECIMAL(10,2),
+    fecha_multa DATE,
+    estado_pago VARCHAR(255),
+    id_prestamo INT,
+    FOREIGN KEY (id_prestamo) REFERENCES prestamos(id_prestamo)
+);
+
+-- Tabla: recomendaciones
+CREATE TABLE recomendaciones (
+    id_recomendacion INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_recomendacion DATE,
+    id_usuario INT,
+    id_matBiblio INT,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_matBiblio) REFERENCES mat_bliografico(id_matBiblio)
+);
+
+-- Tabla: reservas
+CREATE TABLE reservas (
+    id_reserva INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_reserva DATE,
+    fecha_limite DATE,
+    id_usuario INT,
+    id_libro INT,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_libro) REFERENCES mat_bliografico(id_matBiblio)
+);

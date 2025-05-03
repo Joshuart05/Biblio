@@ -139,19 +139,20 @@ public class DbRequest {
         return libros;
     }
 
-    public boolean signUser(String name, String email, String phoneNumber, String direction, String password) {
+    public boolean signUser(String name, String email, String phoneNumber, String direction, String password, String lastName) {
         try {
             if (com == null || com.isClosed()) {
                 driverConnection();
             }
-            String sql = "INSERT INTO Usuario (nombre_pila, email, telefono, tipo_usuario, direccion, contrasenia) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Usuario (nombre_pila, email, telefono, tipo_usuario, direccion, contrasenia, paterno) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement stmt = com.prepareStatement(sql)) {
                 stmt.setString(1, name);
                 stmt.setString(2, email);
                 stmt.setString(3, phoneNumber);
-                stmt.setString(4, "Estudiante"); // Puedes cambiar el tipo si quieres
+                stmt.setString(4, "Estudiante");
                 stmt.setString(5, direction);
                 stmt.setString(6, password);
+                stmt.setString(7, lastName);
                 stmt.executeUpdate();
                 return true;
             }
@@ -161,32 +162,66 @@ public class DbRequest {
         }
     }
 
-    public boolean signUser(String name, String email, String phoneNumber, String direction, String password, int nip) {
+    public boolean signUser(String name, String lastName, String email, String phoneNumber, String direction, String password, int nip, String type) {
         try {
             if (com == null || com.isClosed()) {
                 driverConnection();
             }
-            String sql = "INSERT INTO Bibliotecario (nombre_pila, email, telefono, tipo_usuario, direccion, paterno, contrasenia, nip) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement stmt = com.prepareStatement(sql)) {
-                stmt.setString(1, name);
-                stmt.setString(2, email);
-                stmt.setString(3, phoneNumber);
-                stmt.setString(4, "Bibliotecario"); // O "Administrador", depende
-                stmt.setString(5, direction);
-                stmt.setString(6, ""); // paterno vacío si no lo manejas
-                stmt.setString(7, password);
-                stmt.setInt(8, nip);
-                stmt.executeUpdate();
-                return true;
+
+            if (type.equals("Administrador")) {
+                
+                String sql = "INSERT INTO Bibliotecario (nombre_pila , email, telefono, tipo_usuario, direccion, paterno, contrasenia, nip) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                try (PreparedStatement stmt = com.prepareStatement(sql)) {
+                    stmt.setString(1, name);
+                    stmt.setString(2, email);
+                    stmt.setString(3, phoneNumber);
+                    stmt.setString(4, type);
+                    stmt.setString(5, direction);
+                    stmt.setString(6, lastName);
+                    stmt.setString(7, password);
+                    stmt.setInt(8, nip);
+                    stmt.executeUpdate();
+                    return true;
+                }
+                
+            } else {
+
+                String sql = "INSERT INTO Bibliotecario (nombre_pila , email, telefono, tipo_usuario, direccion, paterno, contrasenia) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                try (PreparedStatement stmt = com.prepareStatement(sql)) {
+                    stmt.setString(1, name);
+                    stmt.setString(2, email);
+                    stmt.setString(3, phoneNumber);
+                    stmt.setString(4, type);
+                    stmt.setString(5, direction);
+                    stmt.setString(6, lastName);
+                    stmt.setString(7, password);
+                    stmt.executeUpdate();
+                    return true;
+                }
             }
         } catch (SQLException e) {
-            System.out.println("Error en signUser (Bibliotecario): " + e.getMessage());
+            System.out.println("Error en signUser (Admin/Biblio): " + e.getMessage());
             return false;
         }
     }
 
-    public boolean validateIdentify(String Ddmin) {
-
+    public boolean validateIdentify(String Ddmin) throws SQLException {
+        if (com == null || com.isClosed()) {
+            driverConnection();
+        }
+        
+        String sqlValidate = "SELECT nip FROM bibliotecario WHERE tipo_usuario = \"Administrador\" AND nip = ?";
+        
+        try{
+            PreparedStatement stmtValidate = com.prepareStatement(sqlValidate);
+            stmtValidate.setString(1, Ddmin);
+            ResultSet rsUser = stmtValidate.executeQuery();
+            System.out.println(rsUser.getString("nip"));
+            if(Ddmin.equals(rsUser.getString("nip"))) return true;
+        } catch(SQLException e){
+            System.out.println("Lo hiciste mal hijo");
+        }
+        
         return false;
     }
 
