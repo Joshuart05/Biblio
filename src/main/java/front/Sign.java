@@ -1,6 +1,10 @@
 package front;
 
-import back.Login_And_Sign_BackFunction;
+import back.DbRequest;
+import static java.lang.Integer.parseInt;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -9,13 +13,15 @@ import javax.swing.JOptionPane;
  */
 public class Sign extends javax.swing.JFrame {
 
+    DbRequest dbConsul = new DbRequest();
     private static String NAME_HINT = "Nombre...";
     private static String EMAIL_HINT = "Email...";
     private static String PHONE_HINT = "Telefono...";
+    private static String LASTNAME_HINT = "Apellido...";
     private static String ADDRESS_HINT = "Direccion...";
-    private static String NIP_HINT = "12345";
-    private static String PASSWORD_HINT = "Contraseña... (Al menos 5 letras)";
-    private boolean[] flag = new boolean[7];
+    private static String NIP_HINT = "....";
+    private static String PASSWORD_HINT = "......";
+    private boolean[] flag = new boolean[9];
 
     public Sign() {
         initComponents();
@@ -40,6 +46,7 @@ public class Sign extends javax.swing.JFrame {
         signButton = new javax.swing.JButton();
         formUser = new javax.swing.JPanel();
         name = new javax.swing.JTextField();
+        lastName = new javax.swing.JTextField();
         email = new javax.swing.JTextField();
         phoneNumber = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -135,7 +142,7 @@ public class Sign extends javax.swing.JFrame {
         formUser.setLayout(new java.awt.GridLayout(0, 1));
 
         name.setText("Nombre...");
-        name.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 0), 1, true));
+        name.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
         name.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 nameFocusGained(evt);
@@ -146,8 +153,20 @@ public class Sign extends javax.swing.JFrame {
         });
         formUser.add(name);
 
+        lastName.setText("Apellido...");
+        lastName.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        lastName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                lastNameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                lastNameFocusLost(evt);
+            }
+        });
+        formUser.add(lastName);
+
         email.setText("Email...");
-        email.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 0), 1, true));
+        email.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
         email.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 emailFocusGained(evt);
@@ -159,7 +178,7 @@ public class Sign extends javax.swing.JFrame {
         formUser.add(email);
 
         phoneNumber.setText("Telefono...");
-        phoneNumber.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 0), 1, true));
+        phoneNumber.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
         phoneNumber.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 phoneNumberFocusGained(evt);
@@ -173,7 +192,7 @@ public class Sign extends javax.swing.JFrame {
         direction.setColumns(20);
         direction.setRows(5);
         direction.setText("Direccion...");
-        direction.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+        direction.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         direction.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 directionFocusGained(evt);
@@ -198,8 +217,8 @@ public class Sign extends javax.swing.JFrame {
         jLabel1.setText("Escribe una contraseña con al menos 6 caracteres");
         formUser.add(jLabel1);
 
-        password.setText("12345");
-        password.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+        password.setText("......");
+        password.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         password.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 passwordFocusGained(evt);
@@ -216,7 +235,7 @@ public class Sign extends javax.swing.JFrame {
         adminNipInfoText.setFocusable(false);
         formUser.add(adminNipInfoText);
 
-        adminNip.setText("12345");
+        adminNip.setText("....");
         adminNip.setToolTipText("");
         adminNip.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
         adminNip.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -233,7 +252,7 @@ public class Sign extends javax.swing.JFrame {
         nipInfoText.setFocusable(false);
         formUser.add(nipInfoText);
 
-        nip.setText("12345");
+        nip.setText("....");
         nip.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 0), 1, true));
         nip.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -249,7 +268,7 @@ public class Sign extends javax.swing.JFrame {
         nipInfoTextValidate.setFocusable(false);
         formUser.add(nipInfoTextValidate);
 
-        nipValidate.setText("12345");
+        nipValidate.setText("....");
         nipValidate.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 0), 1, true));
         nipValidate.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -282,6 +301,7 @@ public class Sign extends javax.swing.JFrame {
             name.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(0, 153, 0)));
             flag[0] = true;
         }
+        System.out.println("Bandera 0 Nombre es: " + flag[0]);
     }//GEN-LAST:event_nameFocusLost
 
     //Email Obtain Focus
@@ -303,6 +323,7 @@ public class Sign extends javax.swing.JFrame {
             email.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(153, 0, 0)));
             flag[1] = false;
         }
+        System.out.println("Bandera 1 email es: " + flag[1]);
     }//GEN-LAST:event_emailFocusLost
 
     //Phone Number Obtain Focus
@@ -324,6 +345,7 @@ public class Sign extends javax.swing.JFrame {
             phoneNumber.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(153, 0, 0)));
             flag[2] = false;
         }
+        System.out.println("Bandera 2 numero es: " + flag[2]);
     }//GEN-LAST:event_phoneNumberFocusLost
 
     //Direction Obtain Focus
@@ -342,6 +364,7 @@ public class Sign extends javax.swing.JFrame {
             direction.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(0, 153, 0)));
             flag[3] = true;
         }
+        System.out.println("Bandera 3 direccion es: " + flag[3]);
     }//GEN-LAST:event_directionFocusLost
 
     //ADmin nip Obtain Focus
@@ -383,6 +406,8 @@ public class Sign extends javax.swing.JFrame {
             nip.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(153, 0, 0)));
             flag[5] = false;
         }
+        
+        System.out.println("Bandera 8 es: " + flag[5]);
     }//GEN-LAST:event_nipFocusLost
 
     //nip rec Obtain Focus
@@ -407,27 +432,30 @@ public class Sign extends javax.swing.JFrame {
             nipValidate.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(153, 0, 0)));
             flag[6] = false;
         }
+        System.out.println("Bandera 8 es: " + flag[6]);
     }//GEN-LAST:event_nipValidateFocusLost
 
     //password Obtain Focus
     private void passwordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFocusGained
-        if (password.getText().equals(PASSWORD_HINT)) {
+        if (String.valueOf(password.getPassword()).equals(PASSWORD_HINT)) {
             password.setText("");
         }
     }//GEN-LAST:event_passwordFocusGained
 
     private void passwordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFocusLost
-        if (password.getText().isEmpty()) {
+        String pass = String.valueOf(password.getPassword());
+        if (pass.isEmpty()) {
             password.setText(PASSWORD_HINT);
             password.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(153, 0, 0)));
             flag[7] = false;
-        } else if (password.getText().length() > 5) {
+        } else if (pass.length() > 5) {
             password.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(0, 153, 0)));
             flag[7] = true;
         } else {
             password.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(153, 0, 0)));
             flag[7] = false;
         }
+        System.out.println("Bandera 7 password es: " + flag[7]);
     }//GEN-LAST:event_passwordFocusLost
 
     private void showSpecificOptions(String type) {
@@ -445,7 +473,7 @@ public class Sign extends javax.swing.JFrame {
         }
     }
 
-    private boolean sign() {
+    private boolean sign() throws SQLException {
         String type = (String) userType.getSelectedItem();
         int list = 0;
         for (boolean f : flag) {
@@ -462,13 +490,17 @@ public class Sign extends javax.swing.JFrame {
 
         switch (type) {
             case "Estudiante":
-                if (list == 5) {
+                if (list == 6) {
                     String Name = name.getText();
+                    String LastName = lastName.getText();
                     String Email = email.getText();
                     String PhoneNumber = phoneNumber.getText();
                     String Direction = direction.getText();
+                    String pass = String.valueOf(password.getPassword());
                     System.out.println("Entro");
-                    //signUser(String name, String email, String phoneNumber, String direction, String password)
+                    if(dbConsul.signUser(Name, Email, PhoneNumber, Direction, pass, LastName)){
+                        //JOptionPane.showMessageDialog(null, "Agregado con exito");
+                    }
                 } else {
                     System.out.println("Esto nodeberia");
                     return false;
@@ -476,37 +508,43 @@ public class Sign extends javax.swing.JFrame {
 
                 break;
             case "Bibliotecario":
-                if (list == 6) {
+                if (list == 8) {
                     String Name = name.getText();
+                    String LastName = lastName.getText();
                     String Email = email.getText();
                     String PhoneNumber = phoneNumber.getText();
                     String Direction = direction.getText();
+                    String pass = String.valueOf(password.getPassword());
                     String Ddmin = String.valueOf(adminNip.getPassword());
+                    System.out.println("Entro");
 
-                    //if(validateIdentify(Ddmin)){
-                    //  signUser(String name, String email, String phoneNumber, String direction, String password) 
-                    //} else {
-                    //  return false;
-                    //}
+                    if(dbConsul.validateIdentify(Ddmin)){
+                      dbConsul.signUser(Name, LastName, Email, PhoneNumber, Direction, pass, 0, "Bbiliotecario");
+                    } else {
+                      return false;
+                    }
                 } else {
                     return false;
                 }
 
                 break;
             case "Administrativo":
-                if (list == 7) {
+                if (list == 9) {
                     String Name = name.getText();
+                    String LastName = lastName.getText();
                     String Email = email.getText();
                     String PhoneNumber = phoneNumber.getText();
                     String Direction = direction.getText();
+                    String pass = String.valueOf(password.getPassword());
                     String Ddmin = String.valueOf(adminNip.getPassword());
-                    String Nip = String.valueOf(nipValidate.getPassword());
+                    int nip = parseInt(String.valueOf(nipValidate.getPassword()));
+                    System.out.println("Entro");
 
-                    //if(validateIdentify(Ddmin)){
-                    //  signUser(String name, String email, String phoneNumber, String direction, String password, String nip) 
-                    //} else {
-                    //  return false;
-                    //}
+                    if(dbConsul.validateIdentify(Ddmin)){
+                      dbConsul.signUser(Name, LastName, Email, PhoneNumber, Direction, pass, nip, "Administrador");
+                    } else {
+                      return false;
+                    }
                 } else {
                     return false;
                 }
@@ -534,49 +572,16 @@ public class Sign extends javax.swing.JFrame {
     }
 
     private void signButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signButtonActionPerformed
-        if (!sign()) {
-            JOptionPane.showMessageDialog(this, "Por favor, completa correctamente todos los campos requeridos.", "Error de registro", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        String type = (String) userType.getSelectedItem();
-        String Name = name.getText();
-        String Email = email.getText();
-        String PhoneNumber = phoneNumber.getText();
-        String Direction = direction.getText();
-        String Password = String.valueOf(password.getPassword()); // Asumo que tienes un campo 'password'
-
-        switch (type) {
-            case "Estudiante":
-                // Registro para estudiante
-                //signUser(Name, Email, PhoneNumber, Direction, Password);
-                break;
-
-            case "Bibliotecario":
-                String AdminNip = String.valueOf(adminNip.getPassword());
-//                if (validateIdentify(AdminNip)) {
-//                    signUser(Name, Email, PhoneNumber, Direction, Password);
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "NIP de bibliotecario inválido.", "Error", JOptionPane.ERROR_MESSAGE);
-//                    return;
-//                }
-                break;
-
-            case "Administrativo":
-                AdminNip = String.valueOf(adminNip.getPassword());
-                String NipValidate = String.valueOf(nipValidate.getPassword());
-
-//                if (validateIdentify(AdminNip)) {
-//                    signUser(Name, Email, PhoneNumber, Direction, Password, NipValidate);
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "NIP administrativo inválido.", "Error", JOptionPane.ERROR_MESSAGE);
-//                    return;
-//                }
-                break;
+        try {
+            if (!sign()) {
+                JOptionPane.showMessageDialog(this, "Por favor, completa correctamente todos los campos requeridos.", "Error de registro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Sign.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente.", "Registro completo", JOptionPane.INFORMATION_MESSAGE);
-
     }//GEN-LAST:event_signButtonActionPerformed
 
     private void userTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userTypeActionPerformed
@@ -593,6 +598,24 @@ public class Sign extends javax.swing.JFrame {
     private void emptyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emptyButtonActionPerformed
         clearForm();
     }//GEN-LAST:event_emptyButtonActionPerformed
+
+    private void lastNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lastNameFocusGained
+       if (lastName.getText().equals(LASTNAME_HINT)) {
+            lastName.setText("");
+        }
+    }//GEN-LAST:event_lastNameFocusGained
+
+    private void lastNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lastNameFocusLost
+        if (lastName.getText().isEmpty()) {
+            lastName.setText(LASTNAME_HINT);
+            lastName.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(153, 0, 0)));
+            flag[8] = false;
+        } else {
+            lastName.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(0, 153, 0)));
+            flag[8] = true;
+        }
+        System.out.println("Bandera 8 apellido es: " + flag[8]);
+    }//GEN-LAST:event_lastNameFocusLost
 
     private void turnOnBibliotecary() {
         adminNipInfoText.setVisible(true);
@@ -681,6 +704,7 @@ public class Sign extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JTextField lastName;
     private javax.swing.JTextField name;
     private javax.swing.JPasswordField nip;
     private javax.swing.JLabel nipInfoText;
