@@ -5,12 +5,12 @@ public class Libro {
     private String titulo;
     private String autor;
     private String editorial;
-    private int anio;
+    private String anio;
     private String genero;
     private String ubicacion;
     private int copiasDisponibles;
 
-    public Libro(int id, String titulo, String autor, String editorial, int anio, String genero, String ubicacion, int copiasDisponibles) {
+    public Libro(int id, String titulo, String autor, String editorial, String anio, String genero, String ubicacion, int copiasDisponibles) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
@@ -55,11 +55,11 @@ public class Libro {
         this.editorial = editorial;
     }
 
-    public int getAnio() {
+    public String getAnio() {
         return anio;
     }
 
-    public void setAnio(int anio) {
+    public void setAnio(String anio) {
         this.anio = anio;
     }
 

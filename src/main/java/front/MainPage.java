@@ -1,20 +1,35 @@
 package front;
 
+import back.DbRequest;
+import back.Main;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import models.Libro;
 
 /**
  *
  * @author joshu
  */
 public class MainPage extends javax.swing.JFrame {
-    
-     private static String SEARCH_HINT = "Buscar...";
 
-    public MainPage() {
+    private final Main mainWindow;
+    private DefaultTableModel table;
+    private List<Libro> books = new ArrayList<>();
+    DbRequest dbConsul = new DbRequest();
+
+    private static String SEARCH_HINT = "Buscar...";
+
+    public MainPage(Main parent) {
+        this.mainWindow = parent;
         initComponents();
+        table = (DefaultTableModel) booksTable.getModel();
+        loadBooks();
+        typeUserInterface(mainWindow.showUserType());
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -22,7 +37,6 @@ public class MainPage extends javax.swing.JFrame {
         header = new javax.swing.JPanel();
         backButton = new javax.swing.JButton();
         searchField = new javax.swing.JTextField();
-        searchButton = new javax.swing.JButton();
         adminOptions = new javax.swing.JPanel();
         bibliotecaryOptionsPanel = new javax.swing.JPanel();
         updateButton = new javax.swing.JButton();
@@ -31,7 +45,7 @@ public class MainPage extends javax.swing.JFrame {
         deleteButton = new javax.swing.JButton();
         mainPanel = new javax.swing.JPanel();
         elementsPanel = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        booksTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Consulta");
@@ -61,12 +75,12 @@ public class MainPage extends javax.swing.JFrame {
                 searchFieldFocusLost(evt);
             }
         });
+        searchField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchFieldKeyReleased(evt);
+            }
+        });
         header.add(searchField);
-
-        searchButton.setText("Buscar");
-        searchButton.setMaximumSize(new java.awt.Dimension(700, 700));
-        searchButton.setPreferredSize(new java.awt.Dimension(100, 100));
-        header.add(searchButton);
 
         getContentPane().add(header, java.awt.BorderLayout.PAGE_START);
 
@@ -96,18 +110,33 @@ public class MainPage extends javax.swing.JFrame {
 
         mainPanel.setLayout(new java.awt.CardLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        booksTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Nombre", "Autor", "Editorial", "Año", "Genero", "Ubicacion", "Disponibles"
             }
-        ));
-        elementsPanel.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        elementsPanel.setViewportView(booksTable);
 
         mainPanel.add(elementsPanel, "card2");
 
@@ -118,21 +147,46 @@ public class MainPage extends javax.swing.JFrame {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         int chi = JOptionPane.showConfirmDialog(rootPane, "Estas seguro de querer salir?");
-        if(chi == 0){
+        if (chi == 0) {
             setVisible(false);
         }
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void searchFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchFieldFocusGained
         String field = searchField.getText();
-        if(field.equals(SEARCH_HINT)) searchField.setText("");
+        if (field.equals(SEARCH_HINT))
+            searchField.setText("");
     }//GEN-LAST:event_searchFieldFocusGained
 
     private void searchFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchFieldFocusLost
         String field = searchField.getText();
-        if (field.equals("")) searchField.setText(SEARCH_HINT);
+        if (field.equals(""))
+            searchField.setText(SEARCH_HINT);
     }//GEN-LAST:event_searchFieldFocusLost
-    
+
+    private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
+        if (!"".equals(searchField.getText())) {
+
+            books = dbConsul.searchBook(searchField.getText());
+            table.setRowCount(0);
+
+            for (Libro book : books) {
+                table.addRow(new Object[]{
+                    book.getId(),
+                    book.getTitulo(),
+                    book.getAutor(),
+                    book.getEditorial(),
+                    book.getAnio(),
+                    book.getGenero(),
+                    book.getUbicacion(),
+                    book.getCopiasDisponibles()
+                });
+            }
+        } else {
+            loadBooks();
+        }
+    }//GEN-LAST:event_searchFieldKeyReleased
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -161,9 +215,47 @@ public class MainPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainPage().setVisible(true);
+                new MainPage(new Main()).setVisible(true);
             }
         });
+    }
+
+    private void loadBooks() {
+        books = dbConsul.requestBooks();
+        table.setRowCount(0);
+
+        for (Libro book : books) {
+            table.addRow(new Object[]{
+                book.getId(),
+                book.getTitulo(),
+                book.getAutor(),
+                book.getEditorial(),
+                book.getAnio(),
+                book.getGenero(),
+                book.getUbicacion(),
+                book.getCopiasDisponibles()
+            });
+        }
+    }
+
+    private void typeUserInterface(int type) {
+        switch (type) {
+            case 1:
+                deleteButton.setVisible(false);
+                deleteButton.setEnabled(false);
+
+                addButton.setVisible(false);
+                addButton.setEnabled(false);
+
+                updateButton.setVisible(false);
+                updateButton.setEnabled(false);
+                break;
+
+            case 2:
+                deleteButton.setVisible(false);
+                deleteButton.setEnabled(false);
+                break;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -172,12 +264,11 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JPanel adminOptionsPanel;
     private javax.swing.JButton backButton;
     private javax.swing.JPanel bibliotecaryOptionsPanel;
+    private javax.swing.JTable booksTable;
     private javax.swing.JButton deleteButton;
     private javax.swing.JScrollPane elementsPanel;
     private javax.swing.JPanel header;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchField;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables

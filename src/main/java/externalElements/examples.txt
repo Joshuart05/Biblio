@@ -1,40 +1,74 @@
--- 🔥 Volver a activar restricciones
-SET FOREIGN_KEY_CHECKS = 1;
+-- 🔥 Apagar restricciones
+SET FOREIGN_KEY_CHECKS = 0;
 
--- 🎯 Insertar nuevos ejemplos
+SET SQL_SAFE_UPDATES = 0;
 
--- Usuarios normales
-INSERT INTO Usuario (nombre_pila, email, telefono, tipo_usuario, direccion, paterno, contrasenia) VALUES
-('Juan', 'juan@example.com', '555-1234', 'Estudiante', 'Calle Falsa 123', 'Pérez', 'password123'),
-('María', 'maria@example.com', '555-5678', 'Estudiante', 'Avenida Siempre Viva 742', 'López', 'pass456'),
-('Carlos', 'carlos@example.com', '555-9012', 'Estudiante', 'Boulevard Central 456', 'Hernández', 'qwerty789');
 
--- Bibliotecarios (y administradores)
-INSERT INTO Bibliotecario (nombre_pila, email, telefono, direccion, paterno, contrasenia, tipo_usuario, nip) VALUES
-('Mario', 'mario@biblio.com', '555-1111', 'Biblioteca Central', 'Sánchez', 'marioPass', 'Bibliotecario', 1234),
-('Sofía', 'sofia@biblio.com', '555-2222', 'Sucursal Norte', 'Ramírez', 'sofiaPass', 'Bibliotecario', 5678),
-('Laura', 'laura@admin.com', '555-3333', 'Oficinas Centrales', 'Gómez', 'lauraAdmin', 'Administrador', 9101);
+-- 🔥 Vaciar tablas
+DELETE FROM Mat_Bliografico;
+DELETE FROM Autor;
+DELETE FROM Editorial;
+DELETE FROM Genero;
+DELETE FROM Usuario;
+DELETE FROM Bibliotecario;
 
--- Géneros
-INSERT INTO Genero (nombre, descripcion, edad_recom) VALUES
-('Fantasía', 'Mundos mágicos y épicos', 12),
-('Romance', 'Relaciones amorosas y drama', 15),
-('Ciencia Ficción', 'Tecnología futurista y universos alternos', 14);
+TRUNCATE TABLE Autor;
+TRUNCATE TABLE Editorial;
+TRUNCATE TABLE Genero;
+TRUNCATE TABLE Mat_Bliografico;
 
--- Editoriales
-INSERT INTO Editorial (nombre, direccion) VALUES
-('Penguin Random House', 'Avenida Editorial 123'),
-('Editorial Planeta', 'Boulevard Editorial 456'),
-('Alfaguara', 'Calle Editorial 789');
+SET SQL_SAFE_UPDATES = 1;
 
--- Autores
-INSERT INTO Autor (nombre_pila, apellidos, nacionalidad) VALUES
-('Gabriel', 'García Márquez', 'Colombiana'),
-('Jane', 'Austen', 'Británica'),
-('Haruki', 'Murakami', 'Japonesa');
+ALTER TABLE Autor AUTO_INCREMENT = 1;
+ALTER TABLE Editorial AUTO_INCREMENT = 1;
+ALTER TABLE Genero AUTO_INCREMENT = 1;
+ALTER TABLE Mat_Bliografico AUTO_INCREMENT = 1;
 
--- Material Bibliográfico (ID's 1 a 3 en cada caso)
-INSERT INTO Mat_Bliografico (titulo, id_autor, id_editorial, ano_publicacion, id_genero, ubicacion, copias_disponibles) VALUES
-('Cien años de soledad', 1, 1, 1967, 1, 'Estante A1', 5),
-('Orgullo y Prejuicio', 2, 2, 1813, 2, 'Estante B2', 3),
-('Kafka en la orilla', 3, 3, 2002, 3, 'Estante C3', 4);
+-- AUTOR
+
+INSERT INTO autor (nombre_pila, nacionalidad, apellidos) VALUES
+('Gabriel', 'Colombiana', 'García Márquez'),
+('Jane', 'Británica', 'Austen'),
+('Haruki', 'Japonesa', 'Murakami');
+
+-- EDITORIAL
+INSERT INTO editorial (nombre, direccion) VALUES
+('Editorial Sudamericana', 'Buenos Aires, Argentina'),
+('Penguin Books', 'Londres, Inglaterra'),
+('Shinchosha', 'Tokio, Japón');
+
+-- GÉNERO
+INSERT INTO genero (nombre, descripcion, edad_recom) VALUES
+('Realismo Mágico', 'Narrativas que mezclan lo real y lo fantástico', 16),
+('Romance', 'Historias de amor y relaciones', 14),
+('Ficción Contemporánea', 'Narrativas de la vida moderna', 18);
+
+-- MATERIAL BIBLIOGRÁFICO
+INSERT INTO mat_bliografico (titulo, ano_publicacion, ubicacion, copias_disponibles, id_editorial, id_genero, id_autor) VALUES
+('Cien años de soledad', '1967-08-01', 'Estante A1', 5, 1, 1, 1),
+('Orgullo y Prejuicio', '1813-08-01', 'Estante B2', 3, 2, 2, 2),
+('Kafka en la orilla', '2002-08-01', 'Estante C3', 4, 3, 3, 3);
+
+-- USUARIO
+INSERT INTO usuario (nombre_pila, email, telefono, tipo_usuario, direccion, paterno, contrasenia) VALUES
+('Laura', 'laura@example.com', '555-1111', 'Estudiante', 'Calle 1', 'Gómez', 'pass123'),
+('Miguel', 'miguel@example.com', '555-2222', 'Estudiante', 'Calle 2', 'Hernández', 'pass456'),
+('Sofía', 'sofia@example.com', '555-3333', 'Estudiante', 'Calle 3', 'López', 'pass789');
+
+-- BIBLIOTECARIO (también incluye administradores aquí, diferenciados por tipo_usuario)
+INSERT INTO bibliotecario (nombre_pila, email, telefono, tipo_usuario, direccion, paterno, contrasenia, nip) VALUES
+('Ana', 'ana.biblio@example.com', '555-4444', 'Bibliotecario', 'Biblioteca Central', 'Martínez', 'biblio123', 1234),
+('Carlos', 'carlos.admin@example.com', '555-5555', 'Administrador', 'Oficinas Admin', 'Ramírez', 'admin456', 5678),
+('Lucía', 'lucia.biblio@example.com', '555-6666', 'Bibliotecario', 'Sucursal Norte', 'Vega', 'biblio789', 9101);
+
+-- RELACIÓN AUTOR-GÉNERO (Autor escribe un género)
+INSERT INTO autor_genero (id_autor, id_genero) VALUES
+(1, 1),
+(2, 2),
+(3, 3);
+
+-- RELACIÓN AUTOR-MATERIAL BIBLIOGRÁFICO
+INSERT INTO autor_matbiblio (id_autor, id_matBiblio) VALUES
+(1, 1),
+(2, 2),
+(3, 3);

@@ -114,17 +114,28 @@ public class DbRequest {
 
     public List<Libro> requestBooks() {
         List<Libro> libros = new ArrayList<>();
-        String sql = "SELECT * FROM Mat_Bliografico";
+        String sql = """
+        SELECT m.id_matBiblio, m.titulo, 
+               CONCAT(a.nombre_pila, ' ', a.apellidos) AS autor,
+               e.nombre AS editorial,
+               m.ano_publicacion,
+               g.nombre AS genero,
+               m.ubicacion,
+               m.copias_disponibles
+        FROM Mat_Bliografico m
+        JOIN autor a ON m.id_autor = a.id_autor
+        JOIN editorial e ON m.id_editorial = e.id_editorial
+        JOIN genero g ON m.id_genero = g.id_genero
+        """;
 
         try (Statement stmt = com.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-
             while (rs.next()) {
                 Libro libro = new Libro(
                         rs.getInt("id_matBiblio"),
                         rs.getString("titulo"),
                         rs.getString("autor"),
                         rs.getString("editorial"),
-                        rs.getInt("ano_publicacion"),
+                        rs.getString("ano_publicacion"),
                         rs.getString("genero"),
                         rs.getString("ubicacion"),
                         rs.getInt("copias_disponibles")
@@ -134,6 +145,49 @@ public class DbRequest {
 
         } catch (SQLException e) {
             System.out.println("Error al solicitar libros: " + e.getMessage());
+        }
+
+        return libros;
+    }
+
+    public List<Libro> searchBook(String name) {
+        List<Libro> libros = new ArrayList<>();
+
+        String sql = """
+        SELECT m.id_matBiblio, m.titulo, 
+               CONCAT(a.nombre_pila, ' ', a.apellidos) AS autor,
+               e.nombre AS editorial,
+               m.ano_publicacion,
+               g.nombre AS genero,
+               m.ubicacion,
+               m.copias_disponibles
+        FROM Mat_Bliografico m
+        JOIN autor a ON m.id_autor = a.id_autor
+        JOIN editorial e ON m.id_editorial = e.id_editorial
+        JOIN genero g ON m.id_genero = g.id_genero
+        WHERE LOWER(m.titulo) LIKE ?
+    """;
+
+        try (PreparedStatement stmt = com.prepareStatement(sql)) {
+            stmt.setString(1, "%" + name.toLowerCase() + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Libro libro = new Libro(
+                        rs.getInt("id_matBiblio"),
+                        rs.getString("titulo"),
+                        rs.getString("autor"),
+                        rs.getString("editorial"),
+                        rs.getString("ano_publicacion"),
+                        rs.getString("genero"),
+                        rs.getString("ubicacion"),
+                        rs.getInt("copias_disponibles")
+                );
+                libros.add(libro);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al buscar libros: " + e.getMessage());
         }
 
         return libros;
@@ -169,7 +223,7 @@ public class DbRequest {
             }
 
             if (type.equals("Administrador")) {
-                
+
                 String sql = "INSERT INTO Bibliotecario (nombre_pila , email, telefono, tipo_usuario, direccion, paterno, contrasenia, nip) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement stmt = com.prepareStatement(sql)) {
                     stmt.setString(1, name);
@@ -183,7 +237,7 @@ public class DbRequest {
                     stmt.executeUpdate();
                     return true;
                 }
-                
+
             } else {
 
                 String sql = "INSERT INTO Bibliotecario (nombre_pila , email, telefono, tipo_usuario, direccion, paterno, contrasenia) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -209,19 +263,25 @@ public class DbRequest {
         if (com == null || com.isClosed()) {
             driverConnection();
         }
-        
+
         String sqlValidate = "SELECT nip FROM bibliotecario WHERE tipo_usuario = \"Administrador\" AND nip = ?";
-        
-        try{
-            PreparedStatement stmtValidate = com.prepareStatement(sqlValidate);
+
+        try (PreparedStatement stmtValidate = com.prepareStatement(sqlValidate)) {
             stmtValidate.setString(1, Ddmin);
             ResultSet rsUser = stmtValidate.executeQuery();
-            System.out.println(rsUser.getString("nip"));
-            if(Ddmin.equals(rsUser.getString("nip"))) return true;
-        } catch(SQLException e){
+
+            if (rsUser.next()) {
+                String nipBD = rsUser.getString("nip");
+                System.out.println("NIP encontrado: " + nipBD);
+                return Ddmin.equals(nipBD);
+            } else {
+                System.out.println("No se encontró ningún administrador con ese NIP.");
+            }
+        } catch (SQLException e) {
             System.out.println("Lo hiciste mal hijo");
+            e.printStackTrace();
         }
-        
+
         return false;
     }
 

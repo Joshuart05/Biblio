@@ -406,7 +406,7 @@ public class Sign extends javax.swing.JFrame {
             nip.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(153, 0, 0)));
             flag[5] = false;
         }
-        
+
         System.out.println("Bandera 8 es: " + flag[5]);
     }//GEN-LAST:event_nipFocusLost
 
@@ -498,17 +498,18 @@ public class Sign extends javax.swing.JFrame {
                     String Direction = direction.getText();
                     String pass = String.valueOf(password.getPassword());
                     System.out.println("Entro");
-                    if(dbConsul.signUser(Name, Email, PhoneNumber, Direction, pass, LastName)){
-                        //JOptionPane.showMessageDialog(null, "Agregado con exito");
+                    if (dbConsul.signUser(Name, Email, PhoneNumber, Direction, pass, LastName)) {
+                        JOptionPane.showMessageDialog(null, "Agregado con exito");
                     }
                 } else {
+                    JOptionPane.showMessageDialog(this, "Completa todos los campos", "Error de registro", JOptionPane.ERROR_MESSAGE);
                     System.out.println("Esto nodeberia");
                     return false;
                 }
 
                 break;
             case "Bibliotecario":
-                if (list == 8) {
+                if (list == 7) {
                     String Name = name.getText();
                     String LastName = lastName.getText();
                     String Email = email.getText();
@@ -518,12 +519,15 @@ public class Sign extends javax.swing.JFrame {
                     String Ddmin = String.valueOf(adminNip.getPassword());
                     System.out.println("Entro");
 
-                    if(dbConsul.validateIdentify(Ddmin)){
-                      dbConsul.signUser(Name, LastName, Email, PhoneNumber, Direction, pass, 0, "Bbiliotecario");
+                    if (dbConsul.validateIdentify(Ddmin)) {
+                        dbConsul.signUser(Name, LastName, Email, PhoneNumber, Direction, pass, 0, "Bbiliotecario");
+                        JOptionPane.showMessageDialog(null, "Agregado con exito");
                     } else {
-                      return false;
+                        JOptionPane.showMessageDialog(this, "Ingresa un nip de administrador valido", "Error de registro", JOptionPane.ERROR_MESSAGE);
+                        return false;
                     }
                 } else {
+                    JOptionPane.showMessageDialog(this, "Completa todos los campos", "Error de registro", JOptionPane.ERROR_MESSAGE);
                     return false;
                 }
 
@@ -540,12 +544,15 @@ public class Sign extends javax.swing.JFrame {
                     int nip = parseInt(String.valueOf(nipValidate.getPassword()));
                     System.out.println("Entro");
 
-                    if(dbConsul.validateIdentify(Ddmin)){
-                      dbConsul.signUser(Name, LastName, Email, PhoneNumber, Direction, pass, nip, "Administrador");
+                    if (dbConsul.validateIdentify(Ddmin)) {
+                        dbConsul.signUser(Name, LastName, Email, PhoneNumber, Direction, pass, nip, "Administrador");
+                        JOptionPane.showMessageDialog(null, "Agregado con exito");
                     } else {
-                      return false;
+                        JOptionPane.showMessageDialog(this, "Ingresa un nip de administrador valido", "Error de registro", JOptionPane.ERROR_MESSAGE);
+                        return false;
                     }
                 } else {
+                    JOptionPane.showMessageDialog(this, "Completa todos los campos", "Error de registro", JOptionPane.ERROR_MESSAGE);
                     return false;
                 }
                 break;
@@ -574,7 +581,7 @@ public class Sign extends javax.swing.JFrame {
     private void signButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signButtonActionPerformed
         try {
             if (!sign()) {
-                JOptionPane.showMessageDialog(this, "Por favor, completa correctamente todos los campos requeridos.", "Error de registro", JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showMessageDialog(this, "Por favor, completa correctamente todos los campos requeridos.", "Error de registro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         } catch (SQLException ex) {
@@ -600,7 +607,7 @@ public class Sign extends javax.swing.JFrame {
     }//GEN-LAST:event_emptyButtonActionPerformed
 
     private void lastNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lastNameFocusGained
-       if (lastName.getText().equals(LASTNAME_HINT)) {
+        if (lastName.getText().equals(LASTNAME_HINT)) {
             lastName.setText("");
         }
     }//GEN-LAST:event_lastNameFocusGained
@@ -621,7 +628,7 @@ public class Sign extends javax.swing.JFrame {
         adminNipInfoText.setVisible(true);
         adminNip.setVisible(true);
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -655,7 +662,7 @@ public class Sign extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private void clearForm() {
         // Campos de texto
         name.setText(NAME_HINT);
@@ -675,7 +682,7 @@ public class Sign extends javax.swing.JFrame {
         // Apagar campos condicionales
         turnOffSpecificObjects();
     }
-    
+
     private void toggleFieldsByUserType(String type) {
         boolean isAdmin = type.equals("Administrativo");
         boolean isBiblio = type.equals("Bibliotecario");

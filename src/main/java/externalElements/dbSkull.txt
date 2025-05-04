@@ -29,7 +29,7 @@ CREATE TABLE genero (
 CREATE TABLE mat_bliografico (
     id_matBiblio INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(255),
-    ano_publicacion INT,
+    ano_publicacion DATE,
     ubicacion VARCHAR(255),
     copias_disponibles INT,
     id_editorial INT,
@@ -126,3 +126,5 @@ CREATE TABLE reservas (
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
     FOREIGN KEY (id_libro) REFERENCES mat_bliografico(id_matBiblio)
 );
+
+USE bibliotecadb;

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 public class Main {
     private static MainPage mainPage;
+    private int userType;
     
     public static void main(String[] args) throws SQLException {
         DbRequest.driverConnection();
@@ -16,9 +17,17 @@ public class Main {
         window.setVisible(true);
     }
     
+    public void setUserType(int userType){
+        this.userType = userType;
+    }
+    
+    public int showUserType(){
+        return userType;
+    }
+    
     public MainPage getMainPage() {
         if (mainPage == null) {
-            mainPage = new MainPage();
+            mainPage = new MainPage(this);
         }
         return mainPage;
     }

@@ -14,7 +14,6 @@ import javax.swing.JOptionPane;
  * @author joshu
  */
 public class Login extends javax.swing.JFrame {
-    
    private final Main mainWindow;
    
    DbRequest dbConsul = new DbRequest();
@@ -174,7 +173,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_passFieldFocusLost
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-        setVisible(false);
+        dispose();
     }//GEN-LAST:event_backActionPerformed
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
@@ -183,8 +182,12 @@ public class Login extends javax.swing.JFrame {
             String pass = passField.getText();
             
              try {
-                 if(1 == dbConsul.loginUser(name, pass)){
+                 int type = dbConsul.loginUser(name, pass);
+                 mainWindow.setUserType(type);
+                 
+                 if(type != 0){
                      mainWindow.showMain(true);
+                     passField.setText(PASSWORD_HINT);
                      this.setVisible(false);
                  } else {
                      JOptionPane.showMessageDialog(this, "Tus credenciales son incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
