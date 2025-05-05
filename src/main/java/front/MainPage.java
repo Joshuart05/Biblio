@@ -18,6 +18,7 @@ import models.Libro;
 public class MainPage extends javax.swing.JFrame {
 
     private final Main mainWindow;
+    private OptObject open;
     private DefaultTableModel table;
     private List<Libro> books = new ArrayList<>();
     DbRequest dbConsul = new DbRequest();
@@ -55,13 +56,24 @@ public class MainPage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Consulta");
+        setBackground(new java.awt.Color(255, 244, 236));
         setPreferredSize(new java.awt.Dimension(1500, 800));
         setSize(new java.awt.Dimension(0, 0));
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
 
+        header.setBackground(new java.awt.Color(255, 244, 236));
         header.setLayout(new javax.swing.BoxLayout(header, javax.swing.BoxLayout.LINE_AXIS));
 
+        backButton.setBackground(new java.awt.Color(255, 51, 51));
+        backButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        backButton.setForeground(new java.awt.Color(255, 255, 255));
         backButton.setText("<< Salir");
-        backButton.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 0, 0)));
+        backButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 51, 51), 1, true));
+        backButton.setBorderPainted(false);
         backButton.setMaximumSize(new java.awt.Dimension(700, 700));
         backButton.setPreferredSize(new java.awt.Dimension(100, 100));
         backButton.addActionListener(new java.awt.event.ActionListener() {
@@ -71,7 +83,11 @@ public class MainPage extends javax.swing.JFrame {
         });
         header.add(backButton);
 
+        searchField.setBackground(new java.awt.Color(255, 244, 236));
+        searchField.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        searchField.setForeground(new java.awt.Color(102, 102, 102));
         searchField.setText("Buscar...");
+        searchField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 7, 0, new java.awt.Color(102, 102, 102)));
         searchField.setPreferredSize(new java.awt.Dimension(64, 70));
         searchField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -90,8 +106,12 @@ public class MainPage extends javax.swing.JFrame {
 
         getContentPane().add(header, java.awt.BorderLayout.PAGE_START);
 
+        footer.setBackground(new java.awt.Color(255, 244, 236));
         footer.setLayout(new java.awt.GridLayout());
 
+        bookUpdateButton.setBackground(new java.awt.Color(80, 84, 84));
+        bookUpdateButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        bookUpdateButton.setForeground(new java.awt.Color(204, 204, 204));
         bookUpdateButton.setText("Actualizar Libro");
         bookUpdateButton.setPreferredSize(new java.awt.Dimension(100, 80));
         bookUpdateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -101,6 +121,9 @@ public class MainPage extends javax.swing.JFrame {
         });
         footer.add(bookUpdateButton);
 
+        genreUpdateButton.setBackground(new java.awt.Color(80, 84, 84));
+        genreUpdateButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        genreUpdateButton.setForeground(new java.awt.Color(204, 204, 204));
         genreUpdateButton.setText("Actulizar Genero");
         genreUpdateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,6 +132,9 @@ public class MainPage extends javax.swing.JFrame {
         });
         footer.add(genreUpdateButton);
 
+        updateEditorialButton.setBackground(new java.awt.Color(80, 84, 84));
+        updateEditorialButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        updateEditorialButton.setForeground(new java.awt.Color(204, 204, 204));
         updateEditorialButton.setText("Actulizar Editorial");
         updateEditorialButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,6 +143,9 @@ public class MainPage extends javax.swing.JFrame {
         });
         footer.add(updateEditorialButton);
 
+        updateAuthorButton.setBackground(new java.awt.Color(80, 84, 84));
+        updateAuthorButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        updateAuthorButton.setForeground(new java.awt.Color(204, 204, 204));
         updateAuthorButton.setText("Actulizar Autor");
         updateAuthorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,10 +156,14 @@ public class MainPage extends javax.swing.JFrame {
 
         getContentPane().add(footer, java.awt.BorderLayout.PAGE_END);
 
+        adminOptions.setBackground(new java.awt.Color(255, 244, 236));
         adminOptions.setLayout(new javax.swing.BoxLayout(adminOptions, javax.swing.BoxLayout.PAGE_AXIS));
 
         bibliotecaryOptionsPanel.setLayout(new java.awt.GridLayout(0, 1));
 
+        addButton.setBackground(new java.awt.Color(80, 84, 84));
+        addButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        addButton.setForeground(new java.awt.Color(204, 204, 204));
         addButton.setText("Agregar");
         addButton.setPreferredSize(new java.awt.Dimension(100, 80));
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -144,6 +177,9 @@ public class MainPage extends javax.swing.JFrame {
 
         adminOptionsPanel.setLayout(new java.awt.GridLayout(1, 0));
 
+        deleteButton.setBackground(new java.awt.Color(80, 84, 84));
+        deleteButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        deleteButton.setForeground(new java.awt.Color(204, 204, 204));
         deleteButton.setText("Ver Tablas");
         deleteButton.setPreferredSize(new java.awt.Dimension(100, 80));
         adminOptionsPanel.add(deleteButton);
@@ -152,8 +188,14 @@ public class MainPage extends javax.swing.JFrame {
 
         getContentPane().add(adminOptions, java.awt.BorderLayout.LINE_START);
 
+        mainPanel.setBackground(new java.awt.Color(255, 244, 236));
         mainPanel.setLayout(new java.awt.CardLayout());
 
+        elementsPanel.setBackground(new java.awt.Color(255, 244, 236));
+
+        booksTable.setBackground(new java.awt.Color(255, 244, 236));
+        booksTable.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        booksTable.setForeground(new java.awt.Color(102, 102, 102));
         booksTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -180,6 +222,11 @@ public class MainPage extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        booksTable.setGridColor(new java.awt.Color(255, 244, 236));
+        booksTable.setSelectionBackground(new java.awt.Color(102, 102, 102));
+        booksTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        booksTable.setShowGrid(false);
+        booksTable.setShowHorizontalLines(true);
         elementsPanel.setViewportView(booksTable);
 
         mainPanel.add(elementsPanel, "card2");
@@ -251,6 +298,11 @@ public class MainPage extends javax.swing.JFrame {
         loadobject(3);
     }//GEN-LAST:event_updateAuthorButtonActionPerformed
 
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        open.dispose();
+        loadBooks();
+    }//GEN-LAST:event_formFocusGained
+
     //0 para agregar -
     //1 para editar libro 0
     //2 para editar genero 3
@@ -297,12 +349,17 @@ public class MainPage extends javax.swing.JFrame {
             booksTable.getSelectedRow();
             String value = booksTable.getModel().getValueAt(booksTable.getSelectedRow(), 0).toString();
             System.out.println(value);
-            OptObject open = new OptObject(this, function, parseInt(value));
+            open = new OptObject(this, function, parseInt(value));
+            open.setVisible(true);
+        }
+        
+        if(0 == function){
+            open = new OptObject(this, function, 0);
             open.setVisible(true);
         }
     }
 
-    private void loadBooks() {
+    public void loadBooks() {
         books = dbConsul.requestBooks();
         table.setRowCount(0);
 
@@ -318,6 +375,7 @@ public class MainPage extends javax.swing.JFrame {
                 book.getCopiasDisponibles()
             });
         }
+        repaint();
     }
 
     private void typeUserInterface(int type) {

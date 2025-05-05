@@ -46,6 +46,7 @@ public class index extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Gestor Bibliotecario | UAEH");
+        setBackground(new java.awt.Color(255, 244, 236));
         setLocation(new java.awt.Point(0, 0));
         setPreferredSize(new java.awt.Dimension(1000, 600));
         addFocusListener(new java.awt.event.FocusAdapter() {
@@ -53,16 +54,29 @@ public class index extends javax.swing.JFrame {
                 formFocusGained(evt);
             }
         });
-        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
 
-        welcomeText.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        welcome.setBackground(new java.awt.Color(255, 244, 236));
+        welcome.setForeground(new java.awt.Color(255, 255, 255));
+
+        welcomeText.setBackground(new java.awt.Color(255, 244, 236));
+        welcomeText.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        welcomeText.setForeground(new java.awt.Color(102, 102, 102));
         welcomeText.setText("Bienvenido...");
         welcomeText.setFocusable(false);
         welcomeText.setPreferredSize(new java.awt.Dimension(100, 30));
 
+        personalUserText.setBackground(new java.awt.Color(255, 244, 236));
+        personalUserText.setForeground(new java.awt.Color(255, 255, 255));
+
+        gestor.setBackground(new java.awt.Color(51, 51, 51));
+        gestor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        gestor.setForeground(new java.awt.Color(102, 102, 102));
         gestor.setText("Gestor Bibliotecario");
         gestor.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
+        user.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        user.setForeground(new java.awt.Color(102, 102, 102));
         user.setText("Para UAEH");
         user.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         user.setFocusable(false);
@@ -86,7 +100,7 @@ public class index extends javax.swing.JFrame {
             .addGroup(personalUserTextLayout.createSequentialGroup()
                 .addComponent(gestor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(user, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                .addComponent(user, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -96,8 +110,8 @@ public class index extends javax.swing.JFrame {
             welcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, welcomeLayout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addComponent(welcomeText, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 468, Short.MAX_VALUE)
+                .addComponent(welcomeText, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 723, Short.MAX_VALUE)
                 .addComponent(personalUserText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
         );
@@ -113,7 +127,13 @@ public class index extends javax.swing.JFrame {
 
         getContentPane().add(welcome);
 
-        Info.setText("Entra o Registrate para poder entrar");
+        instructions.setBackground(new java.awt.Color(255, 244, 236));
+        instructions.setForeground(new java.awt.Color(255, 255, 255));
+
+        Info.setBackground(new java.awt.Color(255, 244, 236));
+        Info.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Info.setForeground(new java.awt.Color(102, 102, 102));
+        Info.setText("Entra o Registrate para poder entrar...");
 
         javax.swing.GroupLayout instructionsLayout = new javax.swing.GroupLayout(instructions);
         instructions.setLayout(instructionsLayout);
@@ -122,23 +142,33 @@ public class index extends javax.swing.JFrame {
             .addGroup(instructionsLayout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addComponent(Info, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(581, Short.MAX_VALUE))
+                .addContainerGap(1030, Short.MAX_VALUE))
         );
         instructionsLayout.setVerticalGroup(
             instructionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(instructionsLayout.createSequentialGroup()
                 .addComponent(Info, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 84, Short.MAX_VALUE))
         );
 
         getContentPane().add(instructions);
 
+        options.setBackground(new java.awt.Color(51, 51, 51));
+        options.setForeground(new java.awt.Color(255, 244, 236));
         options.setMaximumSize(new java.awt.Dimension(900, 150));
         options.setMinimumSize(new java.awt.Dimension(300, 23));
         options.setPreferredSize(new java.awt.Dimension(300, 50));
         options.setLayout(new java.awt.BorderLayout());
 
+        signUp.setBackground(new java.awt.Color(255, 255, 255));
+        signUp.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        signUp.setForeground(new java.awt.Color(0, 0, 0));
         signUp.setText("Registrarse");
+        signUp.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        signUp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        signUp.setMaximumSize(new java.awt.Dimension(9999, 99999));
+        signUp.setMinimumSize(new java.awt.Dimension(120, 18));
+        signUp.setPreferredSize(new java.awt.Dimension(120, 18));
         signUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 signUpActionPerformed(evt);
@@ -146,7 +176,13 @@ public class index extends javax.swing.JFrame {
         });
         options.add(signUp, java.awt.BorderLayout.LINE_END);
 
+        login.setBackground(new java.awt.Color(255, 255, 255));
+        login.setFont(login.getFont().deriveFont(login.getFont().getStyle() | java.awt.Font.BOLD));
+        login.setForeground(new java.awt.Color(0, 0, 0));
         login.setText("Entrar");
+        login.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        login.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        login.setMaximumSize(new java.awt.Dimension(9999, 9999));
         login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginActionPerformed(evt);
@@ -156,12 +192,22 @@ public class index extends javax.swing.JFrame {
 
         getContentPane().add(options);
 
+        info.setBackground(new java.awt.Color(255, 244, 236));
+
+        infoText.setBackground(new java.awt.Color(51, 51, 51));
+        infoText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        infoText.setForeground(new java.awt.Color(102, 102, 102));
         infoText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoText.setText("Todos Los Derechos Reservados de Este Software a JJEC SA de CV");
         infoText.setFocusable(false);
         infoText.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        outGestorButton.setBackground(new java.awt.Color(255, 102, 102));
+        outGestorButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        outGestorButton.setForeground(new java.awt.Color(255, 255, 255));
         outGestorButton.setText("Salir");
+        outGestorButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 51, 51), 1, true));
+        outGestorButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         outGestorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 outGestorButtonActionPerformed(evt);
@@ -174,18 +220,18 @@ public class index extends javax.swing.JFrame {
             infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(infoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(infoText, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
+                .addComponent(infoText, javax.swing.GroupLayout.DEFAULT_SIZE, 1337, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(outGestorButton)
+                .addComponent(outGestorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
         infoLayout.setVerticalGroup(
             infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoLayout.createSequentialGroup()
-                .addContainerGap(88, Short.MAX_VALUE)
-                .addComponent(outGestorButton)
+                .addContainerGap(84, Short.MAX_VALUE)
+                .addComponent(outGestorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(infoText))
         );

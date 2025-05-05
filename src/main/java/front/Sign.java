@@ -36,6 +36,7 @@ public class Sign extends javax.swing.JFrame {
 
         jSplitPane1 = new javax.swing.JSplitPane();
         jToggleButton1 = new javax.swing.JToggleButton();
+        container = new javax.swing.JPanel();
         textPageTitleContext = new javax.swing.JLabel();
         infoText = new javax.swing.JLabel();
         pageButtons = new javax.swing.JPanel();
@@ -66,24 +67,37 @@ public class Sign extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Registrarse");
+        setBackground(new java.awt.Color(255, 244, 236));
         setLocation(new java.awt.Point(0, 0));
         setPreferredSize(new java.awt.Dimension(1800, 1000));
+        getContentPane().setLayout(new java.awt.CardLayout());
 
-        textPageTitleContext.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        container.setBackground(new java.awt.Color(255, 244, 236));
+        container.setLayout(new java.awt.BorderLayout());
+
+        textPageTitleContext.setBackground(new java.awt.Color(255, 244, 236));
+        textPageTitleContext.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        textPageTitleContext.setForeground(new java.awt.Color(102, 102, 102));
         textPageTitleContext.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         textPageTitleContext.setText("Registrarse");
         textPageTitleContext.setFocusable(false);
         textPageTitleContext.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(textPageTitleContext, java.awt.BorderLayout.PAGE_START);
+        container.add(textPageTitleContext, java.awt.BorderLayout.PAGE_START);
 
         infoText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoText.setText("Todos Los Derechos Reservados de Este Software a JJEC SA de CV");
         infoText.setFocusable(false);
         infoText.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(infoText, java.awt.BorderLayout.PAGE_END);
+        container.add(infoText, java.awt.BorderLayout.PAGE_END);
 
+        pageButtons.setBackground(new java.awt.Color(255, 244, 236));
+
+        back.setBackground(new java.awt.Color(255, 51, 51));
+        back.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        back.setForeground(new java.awt.Color(255, 255, 255));
         back.setText("<< Regresar");
-        back.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 0, 0)));
+        back.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 51, 51), 1, true));
+        back.setBorderPainted(false);
         back.setMaximumSize(new java.awt.Dimension(83, 23));
         back.setMinimumSize(new java.awt.Dimension(83, 23));
         back.setPreferredSize(new java.awt.Dimension(87, 23));
@@ -107,20 +121,30 @@ public class Sign extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pageButtonsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(284, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(pageButtons, java.awt.BorderLayout.LINE_START);
+        container.add(pageButtons, java.awt.BorderLayout.LINE_START);
 
+        formButtons.setBackground(new java.awt.Color(255, 244, 236));
         formButtons.setLayout(new javax.swing.BoxLayout(formButtons, javax.swing.BoxLayout.Y_AXIS));
 
+        jPanel1.setBackground(new java.awt.Color(255, 244, 236));
+        jPanel1.setMinimumSize(new java.awt.Dimension(80, 60));
         jPanel1.setLayout(new java.awt.GridLayout(0, 1));
 
         details.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         details.setText("Detalles");
         jPanel1.add(details);
 
+        emptyButton.setBackground(new java.awt.Color(153, 153, 0));
+        emptyButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        emptyButton.setForeground(new java.awt.Color(255, 255, 255));
         emptyButton.setText("Vaciar Todo");
+        emptyButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        emptyButton.setBorderPainted(false);
+        emptyButton.setMaximumSize(new java.awt.Dimension(100, 18));
+        emptyButton.setPreferredSize(new java.awt.Dimension(100, 18));
         emptyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emptyButtonActionPerformed(evt);
@@ -128,7 +152,12 @@ public class Sign extends javax.swing.JFrame {
         });
         jPanel1.add(emptyButton);
 
+        signButton.setBackground(new java.awt.Color(0, 102, 102));
+        signButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        signButton.setForeground(new java.awt.Color(255, 255, 255));
         signButton.setText("Registrarse");
+        signButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 1, true));
+        signButton.setBorderPainted(false);
         signButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 signButtonActionPerformed(evt);
@@ -138,10 +167,14 @@ public class Sign extends javax.swing.JFrame {
 
         formButtons.add(jPanel1);
 
-        getContentPane().add(formButtons, java.awt.BorderLayout.LINE_END);
+        container.add(formButtons, java.awt.BorderLayout.LINE_END);
 
+        formUser.setBackground(new java.awt.Color(255, 244, 236));
         formUser.setLayout(new java.awt.GridLayout(0, 1));
 
+        name.setBackground(new java.awt.Color(102, 102, 102));
+        name.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        name.setForeground(new java.awt.Color(255, 255, 255));
         name.setText("Nombre...");
         name.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
         name.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -154,6 +187,9 @@ public class Sign extends javax.swing.JFrame {
         });
         formUser.add(name);
 
+        lastName.setBackground(new java.awt.Color(102, 102, 102));
+        lastName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lastName.setForeground(new java.awt.Color(255, 255, 255));
         lastName.setText("Apellido...");
         lastName.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         lastName.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -166,6 +202,9 @@ public class Sign extends javax.swing.JFrame {
         });
         formUser.add(lastName);
 
+        email.setBackground(new java.awt.Color(102, 102, 102));
+        email.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        email.setForeground(new java.awt.Color(255, 255, 255));
         email.setText("Email...");
         email.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
         email.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -178,6 +217,9 @@ public class Sign extends javax.swing.JFrame {
         });
         formUser.add(email);
 
+        phoneNumber.setBackground(new java.awt.Color(102, 102, 102));
+        phoneNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        phoneNumber.setForeground(new java.awt.Color(255, 255, 255));
         phoneNumber.setText("Telefono...");
         phoneNumber.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
         phoneNumber.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -190,7 +232,10 @@ public class Sign extends javax.swing.JFrame {
         });
         formUser.add(phoneNumber);
 
+        direction.setBackground(new java.awt.Color(102, 102, 102));
         direction.setColumns(20);
+        direction.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        direction.setForeground(new java.awt.Color(255, 255, 255));
         direction.setRows(5);
         direction.setText("Direccion...");
         direction.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
@@ -206,6 +251,9 @@ public class Sign extends javax.swing.JFrame {
 
         formUser.add(jScrollPane1);
 
+        userType.setBackground(new java.awt.Color(102, 102, 102));
+        userType.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        userType.setForeground(new java.awt.Color(255, 255, 255));
         userType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estudiante", "Bibliotecario", "Administrativo" }));
         userType.setBorder(null);
         userType.addActionListener(new java.awt.event.ActionListener() {
@@ -215,9 +263,14 @@ public class Sign extends javax.swing.JFrame {
         });
         formUser.add(userType);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setText("Escribe una contraseña con al menos 6 caracteres");
         formUser.add(jLabel1);
 
+        password.setBackground(new java.awt.Color(102, 102, 102));
+        password.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        password.setForeground(new java.awt.Color(255, 255, 255));
         password.setText("......");
         password.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         password.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -230,15 +283,20 @@ public class Sign extends javax.swing.JFrame {
         });
         formUser.add(password);
 
+        adminNipInfoText.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        adminNipInfoText.setForeground(new java.awt.Color(102, 102, 102));
         adminNipInfoText.setText("Para poder registrarte como Bibliotecario, requieres la llave de una persona autorizada");
         adminNipInfoText.setToolTipText("");
         adminNipInfoText.setAutoscrolls(true);
         adminNipInfoText.setFocusable(false);
         formUser.add(adminNipInfoText);
 
+        adminNip.setBackground(new java.awt.Color(102, 102, 102));
+        adminNip.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        adminNip.setForeground(new java.awt.Color(255, 255, 255));
         adminNip.setText("....");
         adminNip.setToolTipText("");
-        adminNip.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+        adminNip.setBorder(null);
         adminNip.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 adminNipFocusGained(evt);
@@ -249,12 +307,17 @@ public class Sign extends javax.swing.JFrame {
         });
         formUser.add(adminNip);
 
+        nipInfoText.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        nipInfoText.setForeground(new java.awt.Color(102, 102, 102));
         nipInfoText.setText("Para registrate como Administrativo necesitasas tu propia llave unica de registro (5 digitos)");
         nipInfoText.setFocusable(false);
         formUser.add(nipInfoText);
 
+        nip.setBackground(new java.awt.Color(102, 102, 102));
+        nip.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        nip.setForeground(new java.awt.Color(255, 255, 255));
         nip.setText("....");
-        nip.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 0), 1, true));
+        nip.setBorder(null);
         nip.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 nipFocusGained(evt);
@@ -265,12 +328,17 @@ public class Sign extends javax.swing.JFrame {
         });
         formUser.add(nip);
 
+        nipInfoTextValidate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        nipInfoTextValidate.setForeground(new java.awt.Color(102, 102, 102));
         nipInfoTextValidate.setText("Confirma tu llave");
         nipInfoTextValidate.setFocusable(false);
         formUser.add(nipInfoTextValidate);
 
+        nipValidate.setBackground(new java.awt.Color(102, 102, 102));
+        nipValidate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        nipValidate.setForeground(new java.awt.Color(255, 255, 255));
         nipValidate.setText("....");
-        nipValidate.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 0), 1, true));
+        nipValidate.setBorder(null);
         nipValidate.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 nipValidateFocusGained(evt);
@@ -281,7 +349,9 @@ public class Sign extends javax.swing.JFrame {
         });
         formUser.add(nipValidate);
 
-        getContentPane().add(formUser, java.awt.BorderLayout.CENTER);
+        container.add(formUser, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(container, "card2");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -700,6 +770,7 @@ public class Sign extends javax.swing.JFrame {
     private javax.swing.JPasswordField adminNip;
     private javax.swing.JLabel adminNipInfoText;
     private javax.swing.JButton back;
+    private javax.swing.JPanel container;
     private javax.swing.JLabel details;
     private javax.swing.JTextArea direction;
     private javax.swing.JTextField email;

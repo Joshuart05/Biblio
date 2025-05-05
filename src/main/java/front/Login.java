@@ -46,10 +46,10 @@ public class Login extends javax.swing.JFrame {
 
     private boolean ValidatePlaceHolder(JComponent component, String field, String rule, String hint) {
         if (ValidateComponentText(field, rule, hint)) {
-            component.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 255, 0), 1, true));
+            component.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 255, 0), 2, true));
             return true;
         } else {
-            component.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 0), 1, true));
+            component.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 0), 2, true));
             return false;
         }
     }
@@ -64,6 +64,8 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        container = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         nameFiled = new javax.swing.JTextField();
         passField = new javax.swing.JTextField();
@@ -74,16 +76,29 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Inicio de Sesion");
+        setBackground(new java.awt.Color(255, 244, 236));
         setPreferredSize(new java.awt.Dimension(1000, 600));
-        getContentPane().setLayout(new java.awt.GridBagLayout());
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel1.setBackground(new java.awt.Color(255, 244, 236));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jPanel4.setBackground(new java.awt.Color(255, 244, 236));
+        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.PAGE_AXIS));
+
+        container.setBackground(new java.awt.Color(255, 244, 236));
+        container.setLayout(new javax.swing.BoxLayout(container, javax.swing.BoxLayout.PAGE_AXIS));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setText("Ingresa tus datos");
-        jPanel1.add(jLabel1);
+        container.add(jLabel1);
 
+        nameFiled.setBackground(new java.awt.Color(102, 102, 102));
+        nameFiled.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        nameFiled.setForeground(new java.awt.Color(255, 255, 255));
         nameFiled.setText("Nombre...");
+        nameFiled.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(204, 204, 204)));
         nameFiled.setPreferredSize(new java.awt.Dimension(600, 100));
         nameFiled.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -93,9 +108,13 @@ public class Login extends javax.swing.JFrame {
                 nameFiledFocusLost(evt);
             }
         });
-        jPanel1.add(nameFiled);
+        container.add(nameFiled);
 
+        passField.setBackground(new java.awt.Color(102, 102, 102));
+        passField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        passField.setForeground(new java.awt.Color(255, 255, 255));
         passField.setText("Contraseña...");
+        passField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(204, 204, 204)));
         passField.setPreferredSize(new java.awt.Dimension(600, 100));
         passField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -105,11 +124,17 @@ public class Login extends javax.swing.JFrame {
                 passFieldFocusLost(evt);
             }
         });
-        jPanel1.add(passField);
+        container.add(passField);
 
+        jPanel2.setBackground(new java.awt.Color(255, 244, 236));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
 
+        login.setBackground(new java.awt.Color(0, 102, 102));
+        login.setForeground(new java.awt.Color(255, 255, 255));
         login.setText("Entrar");
+        login.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 1, true));
+        login.setBorderPainted(false);
+        login.setMaximumSize(new java.awt.Dimension(72, 50));
         login.setPreferredSize(new java.awt.Dimension(200, 100));
         login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,9 +143,16 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel2.add(login);
 
+        jPanel3.setBackground(new java.awt.Color(255, 244, 236));
+
+        back.setBackground(new java.awt.Color(255, 102, 102));
+        back.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        back.setForeground(new java.awt.Color(255, 255, 255));
         back.setText("<< Regresar");
         back.setActionCommand("Regresar");
-        back.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 0, 51)));
+        back.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 51, 51), 1, true));
+        back.setBorderPainted(false);
+        back.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         back.setPreferredSize(new java.awt.Dimension(125, 50));
         back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,9 +163,13 @@ public class Login extends javax.swing.JFrame {
 
         jPanel2.add(jPanel3);
 
-        jPanel1.add(jPanel2);
+        container.add(jPanel2);
 
-        getContentPane().add(jPanel1, new java.awt.GridBagConstraints());
+        jPanel4.add(container);
+
+        jPanel1.add(jPanel4, new java.awt.GridBagConstraints());
+
+        getContentPane().add(jPanel1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -259,10 +295,12 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
+    private javax.swing.JPanel container;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JButton login;
     private javax.swing.JTextField nameFiled;
     private javax.swing.JTextField passField;

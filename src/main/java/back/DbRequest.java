@@ -199,7 +199,7 @@ public class DbRequest {
                         rs.getInt("id_genero"),
                         rs.getString("nombre"),
                         rs.getString("descripcion"),
-                        rs.getInt("edad_recomendada")
+                        rs.getInt("edad_recom")
                 );
             }
         } catch (SQLException e) {
@@ -469,7 +469,7 @@ public class DbRequest {
     }
 
     public boolean createGender(String name, String description, int age) {
-        String sql = "INSERT INTO genero (nombre, descripcion, edad_recomendada) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO genero (nombre, descripcion, edad_recom) VALUES (?, ?, ?)";
 
         try (PreparedStatement stmt = com.prepareStatement(sql)) {
             stmt.setString(1, name);
@@ -507,7 +507,7 @@ public class DbRequest {
             id_genero = (SELECT id_genero FROM genero WHERE nombre = ?),
             id_editorial = (SELECT id_editorial FROM editorial WHERE nombre = ?),
             id_autor = (SELECT id_autor FROM autor WHERE CONCAT(nombre_pila, ' ', apellidos) = ?)
-        WHERE id_mat_bliografico = ?
+        WHERE id_matBiblio = ?
     """;
 
         try (PreparedStatement stmt = com.prepareStatement(sql)) {
@@ -544,7 +544,7 @@ public class DbRequest {
     }
 
     public boolean updateGender(int id, String name, String description, int age) {
-        String sql = "UPDATE genero SET nombre = ?, descripcion = ?, edad_recomendada = ? WHERE id_genero = ?";
+        String sql = "UPDATE genero SET nombre = ?, descripcion = ?, edad_recom = ? WHERE id_genero = ?";
 
         try (PreparedStatement stmt = com.prepareStatement(sql)) {
             stmt.setString(1, name);
