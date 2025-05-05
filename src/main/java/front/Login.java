@@ -1,3 +1,8 @@
+/** * @authors Quezada Esteban Joshua Arturo
+ *             Martínez Granados Emanuel
+ *             Roldán López Christian Jair
+ */
+
 package front;
 
 import back.Main;
@@ -8,11 +13,6 @@ import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
-
-/**
- *
- * @author joshu
- */
 public class Login extends javax.swing.JFrame {
    private final Main mainWindow;
    
@@ -74,7 +74,7 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Inicio de Sesion");
-        setPreferredSize(new java.awt.Dimension(1800, 1000));
+        setPreferredSize(new java.awt.Dimension(1000, 600));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.PAGE_AXIS));

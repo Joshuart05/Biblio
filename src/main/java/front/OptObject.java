@@ -1,13 +1,40 @@
+/** * @authors Quezada Esteban Joshua Arturo
+ *             Martínez Granados Emanuel
+ *             Roldán López Christian Jair
+ */
 package front;
 
-/**
- *
- * @author joshu
- */
+import back.DbRequest;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import models.Autor;
+import models.Editorial;
+import models.Genero;
+import models.Libro;
+
 public class OptObject extends javax.swing.JFrame {
-    public OptObject() {
+
+    private final MainPage main;
+    private int idObject, functionNumber;
+    private String typeObject;
+    private Libro book;
+
+    DbRequest dbConsul = new DbRequest();
+
+    //0 para agregar -
+    //1 para editar libro 0
+    //2 para editar genero 3
+    //3 para editar autor 2
+    //4 para editar editorial 1
+    public OptObject(MainPage parent, int func, int id) {
+        idObject = id;
+        functionNumber = func;
+        this.main = parent;
         initComponents();
         chargeBoxes();
+        chargeEnvironment(id, func);
         showPanelInit(0);
     }
 
@@ -21,7 +48,7 @@ public class OptObject extends javax.swing.JFrame {
         optionBox = new javax.swing.JComboBox<>();
         labelOption = new javax.swing.JLabel();
         lateralPanel = new javax.swing.JPanel();
-        clearButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
         mainPanel = new javax.swing.JPanel();
         biblioPanel = new javax.swing.JPanel();
@@ -112,13 +139,13 @@ public class OptObject extends javax.swing.JFrame {
 
         lateralPanel.setLayout(new java.awt.GridLayout(0, 1));
 
-        clearButton.setText("Limpiar");
-        clearButton.addActionListener(new java.awt.event.ActionListener() {
+        deleteButton.setText("Borrar");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearButtonActionPerformed(evt);
+                deleteButtonActionPerformed(evt);
             }
         });
-        lateralPanel.add(clearButton);
+        lateralPanel.add(deleteButton);
 
         saveButton.setText("Guardar");
         saveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -140,14 +167,11 @@ public class OptObject extends javax.swing.JFrame {
 
         autorLabel.setText("Autor");
         biblioPanel.add(autorLabel);
-
-        autorCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         biblioPanel.add(autorCombo);
 
         editorialLabel.setText("Editorial");
         biblioPanel.add(editorialLabel);
 
-        editorialCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         biblioPanel.add(editorialCombo);
 
         dateLabel.setText("Fecha");
@@ -194,12 +218,6 @@ public class OptObject extends javax.swing.JFrame {
 
         countryLabel.setText("Nacionalidad");
         autorPanel.add(countryLabel);
-
-        countryField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                countryFieldActionPerformed(evt);
-            }
-        });
         autorPanel.add(countryField);
 
         mainPanel.add(autorPanel);
@@ -234,13 +252,9 @@ public class OptObject extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
-        
-    }//GEN-LAST:event_clearButtonActionPerformed
-
-    private void countryFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countryFieldActionPerformed
-        
-    }//GEN-LAST:event_countryFieldActionPerformed
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        dbConsul.deleteObject(idObject, typeObject);
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
     // Elementos Del Combo
     private void optionBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionBoxActionPerformed
@@ -250,84 +264,197 @@ public class OptObject extends javax.swing.JFrame {
 
     //Guardar Boton
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        saveOptions();
+        if (functionNumber == 0) {
+            createElement(optionBox.getSelectedIndex());
+        } else {
+
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
 
-    private void saveOptions(){
-        switch(checkPanelSelected((String) optionBox.getSelectedItem())){
-            case 0:
-                //createBook(nameField.getText(), dateField.getText(), addressField.getText(), (int) availableField.getText(), genderCombo.getItemSelected(), editorialCombo.getItemSelected());
-                //public boolean createBook(String name, String year, String ubication, int avaible, String gender, String editorial){
+    private void updateOptions(int element) {
+        switch (element) {
+            case 1: // Actualizar libro
+                int bookId = book.getId(); // asegúrate de tener este getter
+                String titulo = titleField.getText();
+                String anio = dateField.getText();
+                String ubicacion = addressField.getText();
+                int disponibles = Integer.parseInt(availableField.getText());
+                String genero = (String) genderCombo.getSelectedItem();
+                String editorial = (String) editorialCombo.getSelectedItem();
+                String autor = (String) autorCombo.getSelectedItem();
+
+                dbConsul.updateBook(bookId, titulo, anio, ubicacion, disponibles, genero, editorial, autor);
                 break;
-            case 1:
-                //createAutor(autorNameField.getText(), countryField.getText(), lastNameField.getText());
-                //public boolean createAutor(String name, String nationality, String lastName){
+
+            case 2: // Actualizar género
+                Genero generoObj = dbConsul.getGeneroByName(book.getGenero());
+                int generoId = generoObj.getId();
+                String nombreGenero = nameGenderField.getText();
+                String descripcionGenero = descriptionGenderField.getText();
+                int edadRecomendada = Integer.parseInt(recommendedField.getText());
+
+                dbConsul.updateGender(generoId, nombreGenero, descripcionGenero, edadRecomendada);
                 break;
-            case 2:
-                //createGender(nameGenderField.getText(), descriptionGenderField.getText(), (int) recommendedField.getText());
-                //public boolean createGender(String name, String description, int age){
+
+            case 3: // Actualizar autor
+                Autor autorObj = dbConsul.getAutorByName(book.getAutor());
+                int autorId = autorObj.getId();
+                String nombreAutor = autorNameField.getText();
+                String apellidos = lastNameField.getText();
+                String nacionalidad = countryField.getText();
+
+                dbConsul.updateAutor(autorId, nombreAutor, nacionalidad, apellidos);
                 break;
-            case 3:
-                //createEditorial(nameEditorialField.getText(), addressEditorialField.getText());
-                //public boolean createEditorial(String name, String address){
+
+            case 4: // Actualizar editorial
+                Editorial editorialObj = dbConsul.getEditorialByName(book.getTitulo());
+                int editorialId = editorialObj.getId();
+                String nombreEditorial = nameEditorialField.getText();
+                String direccionEditorial = addressEditorialField.getText();
+
+                dbConsul.updateEditorial(editorialId, nombreEditorial, direccionEditorial);
                 break;
+
+            default:
+                System.out.println("Elemento no reconocido para actualización.");
         }
+
     }
-    
-    private int checkPanelSelected(String option){
-        switch(option){
-            case "Material Bibliografico": showPanelInit(0);
+
+    private int checkPanelSelected(String option) {
+        switch (option) {
+            case "Material Bibliografico":
+                showPanelInit(0);
                 return 0;
-            case "Autor": showPanelInit(1);
+            case "Autor":
+                showPanelInit(1);
                 return 1;
-            case "Editorial": showPanelInit(2);
+            case "Editorial":
+                showPanelInit(2);
                 return 2;
-            case "Genero": showPanelInit(3);
+            case "Genero":
+                showPanelInit(3);
                 return 3;
         }
-        
+
         return 0;
     }
-    
-    private void showOffInit(){
+
+    private void showOffInit() {
         biblioPanel.setVisible(false);
         editorialPanel.setVisible(false);
         autorPanel.setVisible(false);
         genderPanel.setVisible(false);
     }
-    
-    private void showPanelInit(int show){
-        switch(show){
-            case 0: 
+
+    private void showPanelInit(int show) {
+        switch (show) {
+            case 0:
                 showOffInit();
                 labelOption.setText("Agregar Libro/Revista/Etc.");
                 biblioPanel.setVisible(true);
-            break;
-            case 1: 
+                break;
+            case 1:
                 showOffInit();
                 labelOption.setText("Agregar Editorial");
                 editorialPanel.setVisible(true);
-            break;
-            case 2: 
+                break;
+            case 2:
                 showOffInit();
                 labelOption.setText("Agregar Autor");
                 autorPanel.setVisible(true);
-            break;
-            case 3: 
+                break;
+            case 3:
                 showOffInit();
                 labelOption.setText("Agregar Genero");
                 genderPanel.setVisible(true);
-                
-            break;
+
+                break;
         }
     }
-    
-    private void chargeBoxes(){
-        //autorCombo.setModel(requestAutors());
-        //genderCombo.setModel(requestGenders());
-        //editorialCombo.setModel(requestEditorials());
+
+    private void chargeBoxes() {
+        // Load Authors
+        List<Autor> authors = dbConsul.requestAutors();
+        DefaultComboBoxModel<String> authorModel = new DefaultComboBoxModel<>();
+        for (Autor author : authors) {
+            authorModel.addElement(author.getNombre() + " " + author.getApellidos());
+        }
+        autorCombo.setModel(authorModel);
+
+        // Load Genres
+        List<Genero> genres = dbConsul.requestGenders();
+        DefaultComboBoxModel<String> genreModel = new DefaultComboBoxModel<>();
+        for (Genero genre : genres) {
+            genreModel.addElement(genre.getNombre());
+        }
+        genderCombo.setModel(genreModel);
+
+        // Load Editorials
+        List<Editorial> editorials = dbConsul.requestEditors();
+        DefaultComboBoxModel<String> editorialModel = new DefaultComboBoxModel<>();
+        for (Editorial editorial : editorials) {
+            editorialModel.addElement(editorial.getNombre());
+        }
+        editorialCombo.setModel(editorialModel);
     }
-    
+
+    private void createElement(int element) {
+        switch (element) {
+            case 0: // Libro
+                String titulo = titleField.getText().trim();
+                String autor = (String) autorCombo.getSelectedItem();
+                String editorial = (String) editorialCombo.getSelectedItem();
+                String anio = dateField.getText().trim();
+                String ubicacion = addressField.getText().trim();
+                int copias = Integer.parseInt(availableField.getText().trim());
+                String genero = (String) genderCombo.getSelectedItem();
+
+                if (dbConsul.createBook(titulo, anio, ubicacion, copias, genero, editorial, autor)) {
+                    System.out.println("📚 Libro creado exitosamente");
+                } else {
+                    System.out.println("❌ Error al crear libro");
+                }
+                break;
+
+            case 3: // Género
+                String nombreGenero = nameGenderField.getText().trim();
+                String descripcionGenero = descriptionGenderField.getText().trim();
+                int edad = Integer.parseInt(recommendedField.getText().trim());
+
+                if (dbConsul.createGender(nombreGenero, descripcionGenero, edad)) {
+                    System.out.println("🏷️ Género creado exitosamente");
+                } else {
+                    System.out.println("❌ Error al crear género");
+                }
+                break;
+
+            case 1: // Autor
+                String nombreAutor = autorNameField.getText().trim();
+                String apellidoAutor = lastNameField.getText().trim();
+                String nacionalidad = countryField.getText().trim();
+
+                if (dbConsul.createAutor(nombreAutor, nacionalidad, apellidoAutor)) {
+                    System.out.println("👤 Autor creado exitosamente");
+                } else {
+                    System.out.println("❌ Error al crear autor");
+                }
+                break;
+
+            case 2: // Editorial
+                String nombreEditorial = nameEditorialField.getText().trim();
+                String direccionEditorial = addressEditorialField.getText().trim();
+
+                if (dbConsul.createEditorial(nombreEditorial, direccionEditorial)) {
+                    System.out.println("🏢 Editorial creada exitosamente");
+                } else {
+                    System.out.println("❌ Error al crear editorial");
+                }
+                break;
+        }
+
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -355,10 +482,78 @@ public class OptObject extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run(int type, int id) {
+                new OptObject(new MainPage(null), type, id).setVisible(true);
+            }
+
+            @Override
             public void run() {
-                new OptObject().setVisible(true);
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
         });
+    }
+
+    //0 para agregar -
+    //1 para editar libro 0
+    //2 para editar genero 3
+    //3 para editar autor 2
+    //4 para editar editorial 1
+    private void chargeEnvironment(int id, int element) {
+        System.out.println("Id:" + id);
+        System.out.println("Que esta haciendo:" + element);
+        switch (element) {
+            case 0:
+                showPanelInit(0);
+                break;
+
+            default:
+                deleteButton.setEnabled(false);
+                optionBox.setEnabled(false);
+
+                optionBox.setVisible(false);
+                deleteButton.setVisible(false);
+                labelOption.setText("Editar");
+                book = dbConsul.searchBook(id);
+                switch (element) {
+                    case 1:
+                        typeObject = "mat_bliografico";
+                        showPanelInit(0);
+                        titleField.setText(book.getTitulo());
+                        autorCombo.setSelectedItem(book.getAutor());
+                        editorialCombo.setSelectedItem(book.getEditorial());
+                        dateField.setText(book.getAnio());
+                        addressField.setText(book.getUbicacion());
+                        availableField.setText("" + book.getCopiasDisponibles());
+                        break;
+
+                    case 2:
+                        typeObject = "genero";
+                        showPanelInit(3);
+                        Genero genre = dbConsul.getGeneroByName(book.getGenero());
+                        nameGenderField.setText(genre.getNombre());
+                        descriptionGenderField.setText(genre.getDescripcion());
+                        recommendedField.setText("" + genre.getEdadRecomendada());
+                        break;
+
+                    case 3:
+                        typeObject = "autor";
+                        showPanelInit(2);
+                        Autor author = dbConsul.getAutorByName(book.getAutor());
+                        autorNameField.setText(author.getNombre());
+                        lastNameField.setText(author.getApellidos());
+                        countryField.setText(author.getNacionalidad());
+                        break;
+
+                    case 4:
+                        typeObject = "editorial";
+                        showPanelInit(1);
+                        Editorial editorial = dbConsul.getEditorialByName(book.getTitulo());
+                        nameEditorialField.setText(editorial.getNombre());
+                        addressEditorialField.setText(editorial.getDireccion());
+                        break;
+                }
+                break;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -375,11 +570,11 @@ public class OptObject extends javax.swing.JFrame {
     private javax.swing.JLabel availableLabel;
     private javax.swing.JPanel biblioPanel;
     private javax.swing.JButton cancelButton;
-    private javax.swing.JButton clearButton;
     private javax.swing.JTextField countryField;
     private javax.swing.JLabel countryLabel;
     private javax.swing.JFormattedTextField dateField;
     private javax.swing.JLabel dateLabel;
+    private javax.swing.JButton deleteButton;
     private javax.swing.JTextArea descriptionGenderField;
     private javax.swing.JScrollPane descriptionGenderFiled;
     private javax.swing.JLabel descriptionGenderLabel;

@@ -1,3 +1,8 @@
+/** * @authors Quezada Esteban Joshua Arturo
+ *             Martínez Granados Emanuel
+ *             Roldán López Christian Jair
+ */
+
 package models;
 
 public class Autor {
@@ -11,6 +16,14 @@ public class Autor {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.nacionalidad = nacionalidad;
+    }
+    
+    
+    public Autor(int id, String nombre, String apellidos){
+        this.id = id;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.nacionalidad = "";
     }
 
     // Getters y Setters

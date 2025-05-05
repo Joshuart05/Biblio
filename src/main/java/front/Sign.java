@@ -1,3 +1,8 @@
+/** * @authors Quezada Esteban Joshua Arturo
+ *             Martínez Granados Emanuel
+ *             Roldán López Christian Jair
+ */
+
 package front;
 
 import back.DbRequest;
@@ -7,10 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author joshu
- */
 public class Sign extends javax.swing.JFrame {
 
     DbRequest dbConsul = new DbRequest();

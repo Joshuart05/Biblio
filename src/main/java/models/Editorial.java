@@ -1,3 +1,8 @@
+/** * @authors Quezada Esteban Joshua Arturo
+ *             Martínez Granados Emanuel
+ *             Roldán López Christian Jair
+ */
+
 package models;
 
 public class Editorial {
@@ -11,6 +16,11 @@ public class Editorial {
         this.direccion = direccion;
     }
 
+    public Editorial(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+        this.direccion = "";
+    }
     // Getters y Setters
 
     public int getId() {

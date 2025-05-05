@@ -1,3 +1,8 @@
+/** * @authors Quezada Esteban Joshua Arturo
+ *             Martínez Granados Emanuel
+ *             Roldán López Christian Jair
+ */
+
 package back;
 
 import front.MainPage;

@@ -1,13 +1,14 @@
+/** * @authors Quezada Esteban Joshua Arturo
+ *             Martínez Granados Emanuel
+ *             Roldán López Christian Jair
+ */
+
 package front;
 
 import back.Main;
 import static java.lang.System.exit;
 import javax.swing.JRootPane;
 
-/**
- *
- * @author ALUMNO
- */
 public class index extends javax.swing.JFrame {
     
     private final Main mainWindow;

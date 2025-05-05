@@ -1,3 +1,8 @@
+/** * @authors Quezada Esteban Joshua Arturo
+ *             Martínez Granados Emanuel
+ *             Roldán López Christian Jair
+ */
+
 package models;
 
 public class Genero {
@@ -13,7 +18,12 @@ public class Genero {
         this.edadRecomendada = edadRecomendada;
     }
 
-    // Getters y Setters
+    public Genero(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = "";
+        this.edadRecomendada = 0;
+    }
 
     public int getId() {
         return id;
