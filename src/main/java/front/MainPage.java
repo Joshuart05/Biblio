@@ -2,7 +2,6 @@
  *             Martínez Granados Emanuel
  *             Roldán López Christian Jair
  */
-
 package front;
 
 import back.DbRequest;
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import models.Libro;
 
@@ -45,7 +45,9 @@ public class MainPage extends javax.swing.JFrame {
         genreUpdateButton = new javax.swing.JButton();
         updateEditorialButton = new javax.swing.JButton();
         updateAuthorButton = new javax.swing.JButton();
-        adminOptions = new javax.swing.JPanel();
+        lateralOptions = new javax.swing.JPanel();
+        userOpt = new javax.swing.JPanel();
+        adminOpt = new javax.swing.JPanel();
         bibliotecaryOptionsPanel = new javax.swing.JPanel();
         addButton = new javax.swing.JButton();
         adminOptionsPanel = new javax.swing.JPanel();
@@ -107,7 +109,7 @@ public class MainPage extends javax.swing.JFrame {
         getContentPane().add(header, java.awt.BorderLayout.PAGE_START);
 
         footer.setBackground(new java.awt.Color(255, 244, 236));
-        footer.setLayout(new java.awt.GridLayout());
+        footer.setLayout(new java.awt.GridLayout(1, 0));
 
         bookUpdateButton.setBackground(new java.awt.Color(80, 84, 84));
         bookUpdateButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -156,8 +158,11 @@ public class MainPage extends javax.swing.JFrame {
 
         getContentPane().add(footer, java.awt.BorderLayout.PAGE_END);
 
-        adminOptions.setBackground(new java.awt.Color(255, 244, 236));
-        adminOptions.setLayout(new javax.swing.BoxLayout(adminOptions, javax.swing.BoxLayout.PAGE_AXIS));
+        lateralOptions.setBackground(new java.awt.Color(255, 244, 236));
+        lateralOptions.setLayout(new java.awt.CardLayout());
+        lateralOptions.add(userOpt, "card3");
+
+        adminOpt.setLayout(new javax.swing.BoxLayout(adminOpt, javax.swing.BoxLayout.PAGE_AXIS));
 
         bibliotecaryOptionsPanel.setLayout(new java.awt.GridLayout(0, 1));
 
@@ -173,7 +178,7 @@ public class MainPage extends javax.swing.JFrame {
         });
         bibliotecaryOptionsPanel.add(addButton);
 
-        adminOptions.add(bibliotecaryOptionsPanel);
+        adminOpt.add(bibliotecaryOptionsPanel);
 
         adminOptionsPanel.setLayout(new java.awt.GridLayout(1, 0));
 
@@ -184,9 +189,11 @@ public class MainPage extends javax.swing.JFrame {
         deleteButton.setPreferredSize(new java.awt.Dimension(100, 80));
         adminOptionsPanel.add(deleteButton);
 
-        adminOptions.add(adminOptionsPanel);
+        adminOpt.add(adminOptionsPanel);
 
-        getContentPane().add(adminOptions, java.awt.BorderLayout.LINE_START);
+        lateralOptions.add(adminOpt, "card2");
+
+        getContentPane().add(lateralOptions, java.awt.BorderLayout.LINE_START);
 
         mainPanel.setBackground(new java.awt.Color(255, 244, 236));
         mainPanel.setLayout(new java.awt.CardLayout());
@@ -198,10 +205,7 @@ public class MainPage extends javax.swing.JFrame {
         booksTable.setForeground(new java.awt.Color(102, 102, 102));
         booksTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Nombre", "Autor", "Editorial", "Año", "Genero", "Ubicacion", "Disponibles"
@@ -211,7 +215,7 @@ public class MainPage extends javax.swing.JFrame {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true, true
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -308,7 +312,6 @@ public class MainPage extends javax.swing.JFrame {
     //2 para editar genero 3
     //3 para editar autor 2
     //4 para editar editorial 1
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -341,19 +344,19 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
     }
-    
-    private void loadobject(int function){
-        if(1 == booksTable.getSelectedRowCount()){
+
+    private void loadobject(int function) {
+        if (1 == booksTable.getSelectedRowCount()) {
             Object obj = booksTable.getSelectedRow();
-            
+
             booksTable.getSelectedRow();
             String value = booksTable.getModel().getValueAt(booksTable.getSelectedRow(), 0).toString();
             System.out.println(value);
             open = new OptObject(this, function, parseInt(value));
             open.setVisible(true);
         }
-        
-        if(0 == function){
+
+        if (0 == function) {
             open = new OptObject(this, function, 0);
             open.setVisible(true);
         }
@@ -381,23 +384,23 @@ public class MainPage extends javax.swing.JFrame {
     private void typeUserInterface(int type) {
         switch (type) {
             case 1:
-                adminOptions.setVisible(false);
-                adminOptions.setEnabled(false);
+                lateralOptions.setVisible(false);
+                lateralOptions.setEnabled(false);
 
                 footer.setVisible(false);
                 footer.setEnabled(false);
                 break;
 
             case 2:
-                adminOptions.setVisible(false);
-                adminOptions.setEnabled(false);
+                lateralOptions.setVisible(false);
+                lateralOptions.setEnabled(false);
                 break;
         }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
-    private javax.swing.JPanel adminOptions;
+    private javax.swing.JPanel adminOpt;
     private javax.swing.JPanel adminOptionsPanel;
     private javax.swing.JButton backButton;
     private javax.swing.JPanel bibliotecaryOptionsPanel;
@@ -408,9 +411,11 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JPanel footer;
     private javax.swing.JButton genreUpdateButton;
     private javax.swing.JPanel header;
+    private javax.swing.JPanel lateralOptions;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTextField searchField;
     private javax.swing.JButton updateAuthorButton;
     private javax.swing.JButton updateEditorialButton;
+    private javax.swing.JPanel userOpt;
     // End of variables declaration//GEN-END:variables
 }

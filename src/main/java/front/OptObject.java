@@ -17,6 +17,7 @@ import models.Libro;
 
 public class OptObject extends javax.swing.JFrame {
 
+    private static String YEAR_HINT = "YYYY-MM-DD";
     private final MainPage main;
     private int idObject, functionNumber;
     private String typeObject;
@@ -124,9 +125,9 @@ public class OptObject extends javax.swing.JFrame {
         });
         header.add(optionBox);
 
-        labelOption.setBackground(new java.awt.Color(98, 98, 98));
+        labelOption.setBackground(new java.awt.Color(255, 244, 236));
         labelOption.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        labelOption.setForeground(new java.awt.Color(255, 255, 255));
+        labelOption.setForeground(new java.awt.Color(60, 63, 65));
         labelOption.setText("...");
         labelOption.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         labelOption.setMaximumSize(new java.awt.Dimension(9999, 9999));
@@ -204,7 +205,21 @@ public class OptObject extends javax.swing.JFrame {
 
         dateField.setBackground(new java.awt.Color(102, 102, 102));
         dateField.setForeground(new java.awt.Color(255, 255, 255));
-        dateField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        dateField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("y-MM-dd"))));
+        dateField.setText("YYYY-MM-DD");
+        dateField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                dateFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                dateFieldFocusLost(evt);
+            }
+        });
+        dateField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                dateFieldKeyReleased(evt);
+            }
+        });
         biblioPanel.add(dateField);
 
         genderLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -367,6 +382,42 @@ public class OptObject extends javax.swing.JFrame {
             updateOptions(functionNumber);
         }
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void dateFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dateFieldKeyReleased
+        int text = dateField.getText().length();
+        
+        switch(text){
+            case 4:
+                dateField.setText(dateField.getText() + "-");
+            break;
+            
+            case 7:
+                dateField.setText(dateField.getText() + "-");
+            break;
+            
+            default:
+                if(text > 10){
+                    String limit = dateField.getText();
+                    String newText = limit.substring(0, (limit.length()+10) - limit.length());
+                    dateField.setText(newText);
+                }
+        }
+    }//GEN-LAST:event_dateFieldKeyReleased
+
+    private void dateFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dateFieldFocusGained
+        if(dateField.getText().equals(YEAR_HINT)) dateField.setText("");
+    }//GEN-LAST:event_dateFieldFocusGained
+
+    private void dateFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dateFieldFocusLost
+        if(dateField.getText().equals("")) {
+            dateField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(153, 0, 0)));
+            dateField.setText(YEAR_HINT);
+        } else if(dateField.getText().length() == 10){
+            dateField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(0, 153, 0)));
+        } else {
+            dateField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 10, 1, new java.awt.Color(153, 0, 0)));
+        }
+    }//GEN-LAST:event_dateFieldFocusLost
 
     private void updateOptions(int element) {
         switch (element) {

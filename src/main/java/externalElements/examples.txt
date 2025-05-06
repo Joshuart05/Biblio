@@ -58,6 +58,7 @@ INSERT INTO usuario (nombre_pila, email, telefono, tipo_usuario, direccion, pate
 -- BIBLIOTECARIO (también incluye administradores aquí, diferenciados por tipo_usuario)
 INSERT INTO bibliotecario (nombre_pila, email, telefono, tipo_usuario, direccion, paterno, contrasenia, nip) VALUES
 ('Ana', 'ana.biblio@example.com', '555-4444', 'Bibliotecario', 'Biblioteca Central', 'Martínez', 'biblio123', 1234),
+('Joshua', 'josh@host.com', '7713150395', 'Bibliotecario', 'Biblioteca Central', 'Martínez', 'biblio123', 1234),
 ('Carlos', 'carlos.admin@example.com', '555-5555', 'Administrador', 'Oficinas Admin', 'Ramírez', 'admin456', 5678),
 ('Lucía', 'lucia.biblio@example.com', '555-6666', 'Bibliotecario', 'Sucursal Norte', 'Vega', 'biblio789', 9101);
 
