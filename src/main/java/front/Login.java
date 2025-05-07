@@ -14,6 +14,8 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
+
+   private static final long serialVersionUID = 1L;
    private final Main mainWindow;
    
    DbRequest dbConsul = new DbRequest();
@@ -219,6 +221,8 @@ public class Login extends javax.swing.JFrame {
             
              try {
                  int type = dbConsul.loginUser(name, pass);
+                 int idU = dbConsul.loginUserWithId(name, pass);
+                 mainWindow.setIDUser(idU);
                  mainWindow.setUserType(type);
                  
                  if(type != 0){

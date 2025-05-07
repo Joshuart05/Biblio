@@ -8,7 +8,7 @@
 
     <groupId>com.mycompany</groupId>
     <artifactId>FNNP</artifactId>
-    <version>7.8 ESTABLE</version>
+    <version>1.1 ESTABLE</version>
     <packaging>jar</packaging>
 
     <properties>

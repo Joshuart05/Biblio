@@ -5,6 +5,7 @@
 package back;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import models.Autor;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class DbRequest {
 
@@ -52,7 +54,8 @@ public class DbRequest {
                 Autor autor = new Autor(
                         rs.getInt("id_autor"),
                         rs.getString("nombre_pila"),
-                        rs.getString("apellidos")
+                        rs.getString("apellidos"),
+                        rs.getString("nacionalidad")
                 );
                 autores.add(autor);
             }
@@ -73,7 +76,8 @@ public class DbRequest {
             while (rs.next()) {
                 Editorial editorial = new Editorial(
                         rs.getInt("id_editorial"),
-                        rs.getString("nombre")
+                        rs.getString("nombre"),
+                        rs.getString("direccion")
                 );
                 editoriales.add(editorial);
             }
@@ -94,7 +98,9 @@ public class DbRequest {
             while (rs.next()) {
                 Genero genero = new Genero(
                         rs.getInt("id_genero"),
-                        rs.getString("nombre")
+                        rs.getString("nombre"),
+                        rs.getString("descripcion"),
+                        rs.getInt("edad_recom")
                 );
                 generos.add(genero);
             }
@@ -250,6 +256,28 @@ public class DbRequest {
         }
 
         return libros;
+    }
+
+    public boolean createReserve(int idUsuario, int idLibro) {
+        String sql = """
+        INSERT INTO reservas (fecha_reserva, fecha_limite, id_usuario, id_libro)
+        VALUES (?, ?, ?, ?)
+    """;
+
+        try (PreparedStatement stmt = com.prepareStatement(sql)) {
+            LocalDate fechaReserva = LocalDate.now();
+            LocalDate fechaLimite = fechaReserva.plusDays(7); // por ejemplo, 7 días de préstamo
+
+            stmt.setDate(1, Date.valueOf(fechaReserva));
+            stmt.setDate(2, Date.valueOf(fechaLimite));
+            stmt.setInt(3, idUsuario);
+            stmt.setInt(4, idLibro);
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Error al crear reserva: " + e.getMessage());
+            return false;
+        }
     }
 
     public Libro searchBook(int id) {
@@ -427,6 +455,47 @@ public class DbRequest {
         }
     }
 
+    public int loginUserWithId(String name, String password) throws SQLException {
+        if (com == null || com.isClosed()) {
+            driverConnection();
+        }
+
+        String sqlUser = "SELECT id_usuario, contrasenia, tipo_usuario FROM Usuario WHERE nombre_pila = ?";
+        String sqlBibliotecario = "SELECT id_bibliotecario, contrasenia, tipo_usuario FROM Bibliotecario WHERE nombre_pila = ?";
+
+        try (
+                PreparedStatement stmtUser = com.prepareStatement(sqlUser); PreparedStatement stmtBiblio = com.prepareStatement(sqlBibliotecario)) {
+
+            // Buscar en Usuario
+            stmtUser.setString(1, name);
+            ResultSet rsUser = stmtUser.executeQuery();
+
+            if (rsUser.next()) {
+                String storedPassword = rsUser.getString("contrasenia");
+                String tipo = rsUser.getString("tipo_usuario");
+                if (storedPassword.equals(password) && tipo.equalsIgnoreCase("Estudiante")) {
+                    return rsUser.getInt("id_usuario");
+                }
+            }
+
+            // Buscar en Bibliotecario
+            stmtBiblio.setString(1, name);
+            ResultSet rsBiblio = stmtBiblio.executeQuery();
+
+            if (rsBiblio.next()) {
+                String storedPassword = rsBiblio.getString("contrasenia");
+                String tipo = rsBiblio.getString("tipo_usuario");
+                if (storedPassword.equals(password)
+                        && (tipo.equalsIgnoreCase("Bibliotecario") || tipo.equalsIgnoreCase("Administrador"))) {
+                    return rsBiblio.getInt("id_bibliotecario");
+                }
+            }
+
+            // No encontrado o contraseña incorrecta
+            return 0;
+        }
+    }
+
     public boolean createBook(String name, String year, String ubication, int available, String gender, String editorial, String autor) {
         String sql = """
         INSERT INTO Mat_Bliografico (titulo, ano_publicacion, ubicacion, copias_disponibles, id_genero, id_editorial, id_autor)
@@ -573,21 +642,21 @@ public class DbRequest {
             return false;
         }
     }
-    
+
     public boolean deleteObject(int id, String type) {
 
-    String idColumn = "id_" + type.toLowerCase(); // id_autor, id_editorial, etc.
+        String idColumn = "id_" + type.toLowerCase(); // id_autor, id_editorial, etc.
 
-    String sql = "DELETE FROM " + type + " WHERE " + idColumn + " = ?";
+        String sql = "DELETE FROM " + type + " WHERE " + idColumn + " = ?";
 
-    try (PreparedStatement stmt = com.prepareStatement(sql)) {
-        stmt.setInt(1, id);
-        int result = stmt.executeUpdate();
-        return result > 0;
-    } catch (SQLException e) {
-        System.out.println("Error al eliminar " + type + ": " + e.getMessage());
-        return false;
+        try (PreparedStatement stmt = com.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            int result = stmt.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar " + type + ": " + e.getMessage());
+            return false;
+        }
     }
-}
 
 }

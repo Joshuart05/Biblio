@@ -18,6 +18,7 @@ import models.Libro;
 public class OptObject extends javax.swing.JFrame {
 
     private static String YEAR_HINT = "YYYY-MM-DD";
+    private static final long serialVersionUID = 1L;
     private final MainPage main;
     private int idObject, functionNumber;
     private String typeObject;

@@ -357,7 +357,7 @@
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Todos Los Derechos Reservados de Este Software a JJEC SA de CV"/>
+            <Property name="text" type="java.lang.String" value="Todos Los Derechos Reservados de Este Software a JJEC SA de CV | VERSION 1.1 ESTABLE"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
           </Properties>

@@ -10,7 +10,8 @@ import static java.lang.System.exit;
 import javax.swing.JRootPane;
 
 public class index extends javax.swing.JFrame {
-    
+
+    private static final long serialVersionUID = 1L;
     private final Main mainWindow;
     private final Sign windowSign;
     private final Login windowLogin;
@@ -198,7 +199,7 @@ public class index extends javax.swing.JFrame {
         infoText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         infoText.setForeground(new java.awt.Color(102, 102, 102));
         infoText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        infoText.setText("Todos Los Derechos Reservados de Este Software a JJEC SA de CV");
+        infoText.setText("Todos Los Derechos Reservados de Este Software a JJEC SA de CV | VERSION 1.1 ESTABLE");
         infoText.setFocusable(false);
         infoText.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 

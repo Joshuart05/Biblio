@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 public class Sign extends javax.swing.JFrame {
 
+    private static final long serialVersionUID = 1L;
     DbRequest dbConsul = new DbRequest();
     private static String NAME_HINT = "Nombre...";
     private static String EMAIL_HINT = "Email...";

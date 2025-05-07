@@ -12,6 +12,7 @@ import java.sql.SQLException;
 public class Main {
     private static MainPage mainPage;
     private int userType;
+    private int userId;
     
     public static void main(String[] args) throws SQLException {
         DbRequest.driverConnection();
@@ -20,6 +21,14 @@ public class Main {
         Main controlador = new Main();
         index window = new index(controlador);
         window.setVisible(true);
+    }
+    
+    public void setIDUser(int userId){
+        this.userId = userId;
+    }
+    
+    public int showIdUser(){
+        return userId;
     }
     
     public void setUserType(int userType){

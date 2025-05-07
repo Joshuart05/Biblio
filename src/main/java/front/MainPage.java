@@ -17,6 +17,7 @@ import models.Libro;
 
 public class MainPage extends javax.swing.JFrame {
 
+    private static final long serialVersionUID = 1L;
     private final Main mainWindow;
     private OptObject open;
     private DefaultTableModel table;
@@ -47,11 +48,12 @@ public class MainPage extends javax.swing.JFrame {
         updateAuthorButton = new javax.swing.JButton();
         lateralOptions = new javax.swing.JPanel();
         userOpt = new javax.swing.JPanel();
+        showBook = new javax.swing.JButton();
         adminOpt = new javax.swing.JPanel();
         bibliotecaryOptionsPanel = new javax.swing.JPanel();
         addButton = new javax.swing.JButton();
         adminOptionsPanel = new javax.swing.JPanel();
-        deleteButton = new javax.swing.JButton();
+        showTables = new javax.swing.JButton();
         mainPanel = new javax.swing.JPanel();
         elementsPanel = new javax.swing.JScrollPane();
         booksTable = new javax.swing.JTable();
@@ -160,6 +162,20 @@ public class MainPage extends javax.swing.JFrame {
 
         lateralOptions.setBackground(new java.awt.Color(255, 244, 236));
         lateralOptions.setLayout(new java.awt.CardLayout());
+
+        userOpt.setLayout(new java.awt.GridLayout());
+
+        showBook.setBackground(new java.awt.Color(80, 84, 84));
+        showBook.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        showBook.setForeground(new java.awt.Color(204, 204, 204));
+        showBook.setText("Ver Libro");
+        showBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showBookActionPerformed(evt);
+            }
+        });
+        userOpt.add(showBook);
+
         lateralOptions.add(userOpt, "card3");
 
         adminOpt.setLayout(new javax.swing.BoxLayout(adminOpt, javax.swing.BoxLayout.PAGE_AXIS));
@@ -182,12 +198,17 @@ public class MainPage extends javax.swing.JFrame {
 
         adminOptionsPanel.setLayout(new java.awt.GridLayout(1, 0));
 
-        deleteButton.setBackground(new java.awt.Color(80, 84, 84));
-        deleteButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        deleteButton.setForeground(new java.awt.Color(204, 204, 204));
-        deleteButton.setText("Ver Tablas");
-        deleteButton.setPreferredSize(new java.awt.Dimension(100, 80));
-        adminOptionsPanel.add(deleteButton);
+        showTables.setBackground(new java.awt.Color(80, 84, 84));
+        showTables.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        showTables.setForeground(new java.awt.Color(204, 204, 204));
+        showTables.setText("Ver Tablas");
+        showTables.setPreferredSize(new java.awt.Dimension(100, 80));
+        showTables.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showTablesActionPerformed(evt);
+            }
+        });
+        adminOptionsPanel.add(showTables);
 
         adminOpt.add(adminOptionsPanel);
 
@@ -243,7 +264,7 @@ public class MainPage extends javax.swing.JFrame {
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         int chi = JOptionPane.showConfirmDialog(rootPane, "Estas seguro de querer salir?");
         if (chi == 0) {
-            setVisible(false);
+            dispose();
         }
     }//GEN-LAST:event_backButtonActionPerformed
 
@@ -306,6 +327,20 @@ public class MainPage extends javax.swing.JFrame {
         open.dispose();
         loadBooks();
     }//GEN-LAST:event_formFocusGained
+
+    private void showBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showBookActionPerformed
+        if (1 == booksTable.getSelectedRowCount()) {
+            String value = booksTable.getModel().getValueAt(booksTable.getSelectedRow(), 0).toString();
+            System.out.println("Este es:" + value);
+            ShowBook raf = new ShowBook(mainWindow, parseInt(value));
+            raf.setVisible(true);
+        }
+    }//GEN-LAST:event_showBookActionPerformed
+
+    private void showTablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showTablesActionPerformed
+        showTables win = new showTables();
+        win.setVisible(true);
+    }//GEN-LAST:event_showTablesActionPerformed
 
     //0 para agregar -
     //1 para editar libro 0
@@ -384,8 +419,11 @@ public class MainPage extends javax.swing.JFrame {
     private void typeUserInterface(int type) {
         switch (type) {
             case 1:
-                lateralOptions.setVisible(false);
-                lateralOptions.setEnabled(false);
+                userOpt.setVisible(true);
+                userOpt.setEnabled(true);
+                
+                adminOpt.setVisible(false);
+                adminOpt.setEnabled(false);
 
                 footer.setVisible(false);
                 footer.setEnabled(false);
@@ -394,6 +432,14 @@ public class MainPage extends javax.swing.JFrame {
             case 2:
                 lateralOptions.setVisible(false);
                 lateralOptions.setEnabled(false);
+                break;
+                
+            case 3:
+                userOpt.setVisible(false);
+                userOpt.setEnabled(false);
+                
+                adminOpt.setVisible(true);
+                adminOpt.setEnabled(true);
                 break;
         }
     }
@@ -406,7 +452,6 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JPanel bibliotecaryOptionsPanel;
     private javax.swing.JButton bookUpdateButton;
     private javax.swing.JTable booksTable;
-    private javax.swing.JButton deleteButton;
     private javax.swing.JScrollPane elementsPanel;
     private javax.swing.JPanel footer;
     private javax.swing.JButton genreUpdateButton;
@@ -414,6 +459,8 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JPanel lateralOptions;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTextField searchField;
+    private javax.swing.JButton showBook;
+    private javax.swing.JButton showTables;
     private javax.swing.JButton updateAuthorButton;
     private javax.swing.JButton updateEditorialButton;
     private javax.swing.JPanel userOpt;
